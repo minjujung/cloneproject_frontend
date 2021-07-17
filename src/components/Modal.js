@@ -14,7 +14,7 @@ export default function Modal({ children, width, height, btn }) {
     setOpen(false);
   };
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <span onClick={handleClickOpen}>{btn}</span>
       <Dialog
         open={open}
