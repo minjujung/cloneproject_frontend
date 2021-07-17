@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -28,6 +28,17 @@ const IntroPost = (props) => {
 
   const { classes } = props;
 
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    console.log("close!");
+    setOpen(false);
+  };
+
   return (
     <>
       <Post>
@@ -49,6 +60,9 @@ const IntroPost = (props) => {
               margin="0 0.5em 0 0"
             />
             <Modal
+              open={open}
+              handleClickOpen={handleClickOpen}
+              handleClose={handleClose}
               width="32em"
               height="27em"
               padding="0"
@@ -58,7 +72,7 @@ const IntroPost = (props) => {
                 </PostButton>
               }
             >
-              <CreatePost />
+              <CreatePost handleClose={handleClose} />
             </Modal>
             <Grid />
           </Grid>

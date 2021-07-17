@@ -3,16 +3,16 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 
-export default function Modal({ children, width, height, btn, padding }) {
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+export default function Modal({
+  children,
+  width,
+  height,
+  btn,
+  padding,
+  open,
+  handleClickOpen,
+  handleClose,
+}) {
   return (
     <div style={{ width: "100%" }}>
       <span onClick={handleClickOpen}>{btn}</span>
