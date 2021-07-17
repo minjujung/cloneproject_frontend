@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 
-export default function Modal({ children, width, height, btn }) {
+export default function Modal({ children, width, height, btn, padding }) {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -26,12 +26,14 @@ export default function Modal({ children, width, height, btn }) {
           style: {
             width: `${width}`,
             height: `${height}`,
-            padding: "16px",
+            padding: `${padding ? padding : "16px"}`,
+            borderRadius: "0.6em ",
           },
         }}
         BackdropProps={{
           style: {
-            background: "rgba(255,255,255,0.2)",
+            background: "#e4e6e89e",
+            backdropFilter: "blur(2px)",
           },
         }}
       >
@@ -40,17 +42,3 @@ export default function Modal({ children, width, height, btn }) {
     </div>
   );
 }
-
-const PostButton = styled.button`
-  border: none;
-  width: 100%;
-  font-size: 16px;
-  padding: 0.6em;
-  border-radius: 30px;
-  background-color: #f0f2f5;
-  color: #606266;
-  text-align: left;
-  &:hover {
-    background-color: #e4e6e8;
-  }
-`;

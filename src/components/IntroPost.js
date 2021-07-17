@@ -14,6 +14,7 @@ import Grid from "../elements/Grid";
 import Modal from "./Modal";
 import Profile from "../elements/Profile";
 import profile from "../images/profile.jpg";
+import CreatePost from "./CreatePost";
 
 const styles = (theme) => ({
   customBadge: {
@@ -48,16 +49,16 @@ const IntroPost = (props) => {
               margin="0 0.5em 0 0"
             />
             <Modal
-              width="40%"
-              height="60%"
+              width="32em"
+              height="27em"
+              padding="0"
               btn={
                 <PostButton>
                   {props.userInfo.firstName}님, 무슨 생각을 하고 계신가요?
                 </PostButton>
               }
             >
-              <h1>hello</h1>
-              <input type="text" />
+              <CreatePost />
             </Modal>
             <Grid />
           </Grid>

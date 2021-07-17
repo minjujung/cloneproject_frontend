@@ -6,6 +6,8 @@ import Profile from "../elements/Profile";
 
 import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core/styles";
+import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
 
 const styles = (theme) => ({
   customBadge: {
@@ -22,7 +24,7 @@ const CurrentUser = (props) => {
 
   return (
     <Container>
-      <Users>
+      <Users line padding="4.5em 0 0.6em 0" margin="0">
         <Title>연락처</Title>
         {users_length.map((user, idx) => (
           <User>
@@ -43,6 +45,24 @@ const CurrentUser = (props) => {
           </User>
         ))}
       </Users>
+      <Users padding="1em 0 0em 0">
+        <Title>그룹대화</Title>
+        <User>
+          <SupervisedUserCircleIcon
+            style={{
+              color: "#C4C5C9",
+              fontSize: "2.5em",
+              borderRadius: "50%",
+            }}
+          />
+        </User>
+        <User>
+          <Button>
+            <AddRoundedIcon style={{ color: "#606266", fontSize: "2.2em" }} />
+          </Button>
+          <Name>새 그룹 만들기</Name>
+        </User>
+      </Users>
     </Container>
   );
 };
@@ -58,42 +78,54 @@ CurrentUser.defaultProps = {
 export default withStyles(styles)(CurrentUser);
 
 const Container = styled.div`
-  width: 100%;
+  width: 45%;
   height: 100%;
 `;
 
-const Users = styled.div`
+const Users = styled.ul`
+  list-style-type: none;
   width: 100%;
+  height: 80%;
   display: grid;
-  gap: 0.9em;
   grid-template-rows: repeat(auto-fill, minmax(2em, 1fr));
-  flex-direction: column;
-  padding-top: 4.5em;
-  padding-bottom: 0.9em;
-  height: 100%;
-  border-bottom: 1px solid #bec3c9;
+  ${(props) => (props.line ? `border-bottom: 1px solid #bec3c9;` : null)}
+  ${(props) => (props.padding ? `padding: ${props.padding};` : null)}
+  ${(props) => (props.margin ? `margin: ${props.margin};` : null)}
 `;
 
 const Title = styled.h2`
   text-align: left;
   font-size: 1.05em;
   color: #606266;
-  margin: 0;
-  place-self: end start;
+  margin: 0 0 0 0.5em;
+  place-self: center start;
+  ${(props) => (props.padding ? `padding: ${props.padding};` : null)}
 `;
-const User = styled.div`
+
+const User = styled.li`
   width: 100%;
   height: 100%;
   align-items: center;
   display: flex;
+  box-sizing: border-box;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  &:hover {
+    background-color: #e4e6e8;
+  }
 `;
 
 const Name = styled.p`
   margin: 0 0 0 0.7em;
 `;
 
-const Line = styled.hr`
-  color: #cccccc;
-  width: 90%;
-  border: 1px solid #cccccc;
+const Button = styled.button`
+  border-radius: 50%;
+  border: none;
+  background-color: #dadde1;
+  width: 2.6em;
+  height: 2.6em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

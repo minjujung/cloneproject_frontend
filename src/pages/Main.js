@@ -3,12 +3,14 @@ import styled from "styled-components";
 import CurrentUser from "../components/CurrentUser";
 import Header from "../components/Header";
 import PostList from "../components/PostList";
+import SideMenus from "../components/SideMenus";
 
 const Main = (props) => {
   return (
     <Container>
       <Header />
       <Sections>
+        <SideMenus />
         <PostList />
         <CurrentUser />
       </Sections>
