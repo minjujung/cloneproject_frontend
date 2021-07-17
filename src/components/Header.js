@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import logo from "../images/logo.png";
@@ -10,21 +10,29 @@ import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
 import AppsRoundedIcon from "@material-ui/icons/AppsRounded";
 import NotificationsRoundedIcon from "@material-ui/icons/NotificationsRounded";
 import ArrowDropDownRoundedIcon from "@material-ui/icons/ArrowDropDownRounded";
-import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
+
+import profile from "../images/profile.jpg";
+import Grid from "../elements/Grid";
+import Profile from "../elements/Profile";
 
 const Header = (props) => {
   return (
     <>
       <HeaderStyle>
-        <LogoBtn>
-          <Logo
-            src={logo}
-            alt="facebook"
-            onClick={() => {
-              window.location.reload();
-            }}
-          />
-        </LogoBtn>
+        <Logo
+          src={logo}
+          alt="facebook"
+          onClick={() => {
+            window.location.reload();
+          }}
+        />
+        <Grid is_flex>
+          <SearchBtn>
+            <SearchRoundedIcon style={{ marginRight: "0.3em" }} />
+            Fakebook 검색
+          </SearchBtn>
+        </Grid>
         <MainMenu>
           <Item>
             <HomeRoundedIcon style={IconStyle} />
@@ -41,16 +49,10 @@ const Header = (props) => {
         </MainMenu>
         <SideMenu>
           <User>
-            {props.userInfo.profile ? (
-              <img src={props.profile} alt="profile" />
-            ) : (
-              <AccountCircleRoundedIcon
-                style={{
-                  fontSize: "2.2em",
-                  marginRight: "5px",
-                }}
-              />
-            )}
+            <Profile
+              src={props.profile ? props.profile : profile}
+              margin="0 0.5em 0 0"
+            />
             {props.userInfo.firstName}
           </User>
           <Button>
@@ -100,10 +102,6 @@ const HeaderStyle = styled.header`
     rgba(17, 17, 26, 0.1) 0px 0px 8px;
 `;
 
-const LogoBtn = styled.div`
-  width: 10%;
-`;
-
 const Logo = styled.img`
   width: 2.8em;
   height: 2.8em;
@@ -113,9 +111,26 @@ const Logo = styled.img`
   cursor: pointer;
 `;
 
+const SearchBtn = styled.button`
+  border: none;
+  width: 15em;
+  font-size: 14px;
+  padding: 0.7em;
+  margin-left: 5em;
+  border-radius: 30px;
+  background-color: #f0f2f5;
+  color: #606266;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  &:hover {
+    background-color: #e4e6e8;
+  }
+`;
+
 const MainMenu = styled.ul`
   width: 28em;
-  margin-left: 7em;
+
   height: 100%;
   display: flex;
 `;
