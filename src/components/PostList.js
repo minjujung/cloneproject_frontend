@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
@@ -9,6 +9,7 @@ import MoodRoundedIcon from "@material-ui/icons/MoodRounded";
 import Post from "./Post";
 import Grid from "../elements/Grid";
 import Input from "../elements/Input";
+import Modal from "./Modal";
 
 const PostList = (props) => {
   return (
@@ -37,9 +38,19 @@ const PostList = (props) => {
                 }}
               />
             )}
-            <PostButton>
-              {props.userInfo.firstName}님, 무슨 생각을 하고 계신가요?
-            </PostButton>
+
+            <Modal
+              width="40%"
+              height="60%"
+              btn={
+                <PostButton>
+                  {props.userInfo.firstName}님, 무슨 생각을 하고 계신가요?
+                </PostButton>
+              }
+            >
+              <h1>hello</h1>
+              <input type="text" />
+            </Modal>
             <Grid />
           </Grid>
           <hr

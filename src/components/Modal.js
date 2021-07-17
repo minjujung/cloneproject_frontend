@@ -1,10 +1,10 @@
-import React, { Children } from "react";
+import React, { useState } from "react";
+import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 
-export default function Modal({ children, width, height }) {
-  console.log(width, height);
-  const [open, setOpen] = React.useState(false);
+export default function Modal({ children, width, height, btn }) {
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -13,12 +13,9 @@ export default function Modal({ children, width, height }) {
   const handleClose = () => {
     setOpen(false);
   };
-
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button>
+      <span onClick={handleClickOpen}>{btn}</span>
       <Dialog
         open={open}
         // disableBackdropClick
@@ -43,3 +40,17 @@ export default function Modal({ children, width, height }) {
     </div>
   );
 }
+
+const PostButton = styled.button`
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  padding: 0.6em;
+  border-radius: 30px;
+  background-color: #f0f2f5;
+  color: #606266;
+  text-align: left;
+  &:hover {
+    background-color: #e4e6e8;
+  }
+`;
