@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 
 const Login = (props) => {
+  console.log(props)
   return (
     <>
     <Background>
@@ -16,10 +17,10 @@ const Login = (props) => {
       </FacebookLogo>
 
         <LoginBox>
-        <Input></Input>
-        <Input></Input>
+        <Input placeholder={"이메일"}></Input>
+        <Input placeholder={"비밀번호"} type={"password"}></Input>
         <Button>로그인</Button>
-        <h4>비밀번호를 잊으셨나요?</h4><Hr/>
+        <P>비밀번호를 잊으셨나요?</P><Hr width={"90%"}/>
       <Modal>새 계정 만들기</Modal>
       </LoginBox>
 
@@ -53,6 +54,12 @@ const BackgroundC = styled.div`
 display: flex;
 padding-bottom: 237px;
   padding-top: 85px;
+  @media screen and (max-width: 900px)
+   { 
+     flex-direction: column;
+     padding-bottom: 100px;
+     padding-top: 0px;
+   }
 `;
 const LoginBox = styled.div`
 padding-bottom: 24px;
@@ -83,7 +90,7 @@ const Bottom = styled.div`
 padding-top: 20px;  
 display: block;
 background: #fff;
-/* cursor: pointer; &:hover{ opacity: 0.8; outline: none; } */
+&:hover{ opacity: 0.8; outline: none; background-color: #eee; }
 `;
 const Input = styled.input`
   font-size: 17px;
@@ -130,5 +137,10 @@ const Hr = styled.hr`
     border: 0;
     height: 1px;
     background: #ccc;
-    
 `;
+
+const P = styled.p`
+  color: #1877f2;
+    font-size: 14px;
+    font-weight: 500;
+  `;
