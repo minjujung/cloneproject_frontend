@@ -12,7 +12,10 @@ const CreatePost = (props) => {
     <Container>
       <Title>게시물 만들기</Title>
       <Button>
-        <ClearRounded style={{ color: "#606266", fontSize: "2.2em" }} />
+        <ClearRounded
+          style={{ color: "#606266", fontSize: "2.2em" }}
+          onClick={props.handleClose}
+        />
       </Button>
       <Grid is_flex padding="1em">
         <Profile src={profile} alt="profile" />
