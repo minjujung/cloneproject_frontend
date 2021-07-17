@@ -1,21 +1,55 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Modal from "../components/Modal";
 import styled from "styled-components";
+import IconButton from '@material-ui/core/IconButton';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import {Background, Div, BackgroundC, FacebookLogo, Image, LoginBox, Input, Button, Hr, P, SignUpB, SignUpT, Bottom, ButtonText} from "../components/LoginStyle";
+import { actionCreators as ProfileActions } from "../redux/modules/profile";
+import { useSelector, useDispatch } from "react-redux";
 
+// todo 중복확인, url, email, name, pw 전송
 const Login = (props) => {
-  console.log(props);
+  const dispatch = useDispatch();
+  const profileInput = React.useRef();
+  const is_uploading = useSelector(state => state.profile.uploading);
+  const profile_url = useSelector(state => state.profile.profile_url);
+  
+  const [FirstName, setFirst] = useState("");
+  const [Name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [pwd, setPwd] = useState("");
+
+  const selectFile = () => {
+    // console.log(profileInput.current.files[0]);
+    let profile = profileInput.current.files[0];
+    dispatch(ProfileActions.uploadProfileFB(profile))
+  }
+
+  const duplicate = () => {
+
+  }
+
+  const signUp = () => {
+    console.log(FirstName, Name, email, pwd)
+  }
+
+  const logIn = () => {
+
+  }
   return (
     <>
+    <TotalDiv>
       <Background>
         <Div>
           <BackgroundC>
             <FacebookLogo>
               <Image src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg" />
               <h2>
-                facebook에서 전세계에 있는 친구, 가족, 지인들과 함께 이야기를
+                Facebook에서 전세계에 있는 친구, 가족, 지인들과 함께 이야기를
                 나눠보세요.
               </h2>
             </FacebookLogo>
+
 
             <LoginBox>
               <Input placeholder={"이메일"}></Input>
@@ -23,7 +57,48 @@ const Login = (props) => {
               <Button>로그인</Button>
               <P>비밀번호를 잊으셨나요?</P>
               <Hr width={"90%"} />
-              <Modal>새 계정 만들기</Modal>
+              <Modal
+              width="432px"
+              height="495px"
+              btn={
+                <SignUpB>
+                  <SignUpT>
+                    새 계정 만들기
+                  </SignUpT>
+                </SignUpB>
+              }
+            >
+              <DivM>
+              <H1>가입하기</H1>
+              <P2 color={"#eee"}>빠르고 쉽습니다.</P2>
+              <DivMC>
+                <NameBox>
+                  <InputFirstN onChange={(e) => {setFirst(e.target.value)}} placeholder={"성(性)"}/>
+                  <InputSecondN onChange={(e) => {setName(e.target.value)}} placeholder={"이름(성은 제외)"}/>
+                </NameBox>
+                <InputEmail onChange={(e) => {setEmail(e.target.value)}} placeholder={"이메일"}/>
+                <InputEmail onKeyPress={(e) => {if(e.key === 'Enter'){console.log(e.target.value);}}} onChange={(e) => {setPwd(e.target.value)}} placeholder={"새 비밀번호"} type={"password"}/>
+
+                <DivPicture>
+                  <ProfileImage src={profile_url} ></ProfileImage>
+                  <DivSubButton>
+                  <input disabled={is_uploading} ref={profileInput} onChange={selectFile} style={{ display: "none" }} id="icon-button-file" type="file" />
+                  <label htmlFor="icon-button-file">
+                    <IconButton color="primary" aria-label="upload picture" component="span">
+                      <PhotoCamera />
+                    </IconButton>
+                  </label>
+                </DivSubButton>
+                </DivPicture>
+
+                <SignUpBM disabled={is_uploading} width={"200px"}>
+                  <SignUpT>
+                    가입하기
+                  </SignUpT>
+                </SignUpBM>
+              </DivMC>
+              </DivM>
+            </Modal>
             </LoginBox>
           </BackgroundC>
         </Div>
@@ -44,117 +119,115 @@ const Login = (props) => {
           </ButtonText>
         </Bottom>
       </Background>
+      </TotalDiv>
     </>
   );
 };
 
 export default Login;
 
-const Background = styled.div`
-  width: 100%;
-  height: 100%;
-  font-size: 12px;
-  background: #fff;
-  color: #1c1e21;
-  display: block;
-  line-height: 1.34;
+const H1 = styled.h1`
+  margin-bottom: -5px;
 `;
-const BackgroundC = styled.div`
+
+const P2 = styled.p`
+      color: #606770;
+      font-size: 13px;
+      font-weight: 600;
+`;
+
+const DivM = styled.div`
+  
+`;
+
+const DivMC = styled.div`
+background-color: #fff;
+    border-radius: 0 0 8px 8px;
+    border-top: 1px solid #dadde1;
+    box-sizing: border-box;
+    padding: 16px;
+    position: relative;
+    width: 432px;
+`;
+
+const NameBox = styled.div`
   display: flex;
-  /* padding-bottom: 237px;
-  padding-top: 85px; */
-  @media screen and (max-width: 900px) {
-    flex-direction: column;
-    padding-bottom: 100px;
-    padding-top: 0px;
-  }
+  justify-content: center;
 `;
-const LoginBox = styled.div`
-  padding-bottom: 24px;
-  padding-top: 10px;
-  align-items: center;
-  background-color: #fff;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-  box-sizing: border-box;
+
+const InputFirstN = styled.input`
+      width: 170px;
+      height: 10px;
+      padding: 11px;
+      margin: 0px 5px 10px 0px;
+    font-size: 15px;
+    line-height: 16px;
+    background: #f5f6f7;
+    border-radius: 5px;
+    border: 1px solid #dddfe2;
+`;
+
+const InputSecondN = styled.input`
+      width: 170px;
+      height: 10px;
+      padding: 11px;
+      margin: 0px 0px 10px 5px;
+    font-size: 15px;
+    line-height: 16px;
+    background: #f5f6f7;
+    border-radius: 5px;
+    border: 1px solid #dddfe2;
+`;
+
+const InputEmail = styled.input`
+        width: 375px;
+      height: 10px;
+      padding: 11px;
+      margin: 5px 0px 10px 0px;
+    font-size: 15px;
+    line-height: 16px;
+    background: #f5f6f7;
+    border-radius: 5px;
+    border: 1px solid #dddfe2;
+`;
+
+const TotalDiv = styled.div`
   text-align: center;
-  padding: 20px 0 28px;
-  width: 396px;
-  display: block;
-  word-wrap: break-word;
-  margin: 10px;
+  width: 100vw;
+  height: 100vh;
 `;
-const FacebookLogo = styled.div`
-  width: 500px;
-  box-sizing: border-box;
-  margin-right: 0;
-  padding-right: 32px;
-  margin-top: 100px;
-  text-align: left;
-  font-size: 16px;
+
+const DivPicture = styled.div`
+  display: flex;
+  margin: 5px 0px 0px 115px;
 `;
-const Bottom = styled.div`
-  padding-top: 20px;
-  display: block;
-  background: #fff;
-  &:hover {
-    opacity: 0.8;
-    outline: none;
-    background-color: #eee;
-  }
+
+const ProfileImage = styled.img`
+  border-radius: 80px;
+  width: 160px;
+  height: 160px;
 `;
-const Input = styled.input`
-  font-size: 17px;
-  padding: 14px 16px;
-  width: 330px;
-  height: 52;
-  padding: 14px 16px;
-  border-radius: 6px;
-  border: 1px solid #dddfe2;
-  box-shadow: 0 0 0 2px #e7f3ff;
-  margin-bottom: 12px;
+
+const DivSubButton = styled.div`
+text-align: center;
+margin: 130px 0px 0px -30px;
 `;
-const Image = styled.img`
-  margin: -28px;
-  width: 300px;
-  height: 100px;
-`;
-const Button = styled.button`
-  margin-top: 6px;
-  background-color: #1877f2;
-  width: 364px;
-  height: 48px;
-  padding: 0px 16px;
-  font: 20px;
+
+const SignUpBM = styled.div`
+margin: auto;
+  text-align: center;
+    margin-top: 10px;
+  background-color: #42b72a;
+  width: 150px;
+  height: 30px;
+  padding: 10px 10px 0px 10px;
   border: none;
   border-radius: 6px;
   color: white;
-  font-size: 20px;
-`;
-const Div = styled.div`
-  display: flex;
-  width: 100%;
-  height: 80%;
-  justify-content: center;
-  background: #f0f2f5;
-`;
-
-const ButtonText = styled.div`
-  height: 20%;
-  color: #737373;
-  max-width: 60%;
-  margin: auto;
-`;
-
-const Hr = styled.hr`
-  border: 0;
-  height: 1px;
-  background: #ccc;
-`;
-
-const P = styled.p`
-  color: #1877f2;
-  font-size: 14px;
-  font-weight: 500;
+    &:hover {
+    opacity: 0.9;
+    outline: none;
+    background-color: #42b72a;
+    cursor: pointer;
+  }
 `;
