@@ -18,7 +18,6 @@ export default function Modal({
       <span onClick={handleClickOpen}>{btn}</span>
       <Dialog
         open={open}
-        // disableBackdropClick
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
