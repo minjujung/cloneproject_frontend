@@ -25,6 +25,7 @@ const styles = (theme) => ({
 
 const IntroPost = (props) => {
   const users_length = [1, 2, 3, 4];
+  const [height, setHeight] = useState(27);
 
   const { classes } = props;
 
@@ -37,6 +38,14 @@ const IntroPost = (props) => {
   const handleClose = () => {
     console.log("close!");
     setOpen(false);
+  };
+
+  const resizeModal = (h) => {
+    if (h > 35) {
+      return;
+    } else {
+      setHeight(h);
+    }
   };
 
   return (
@@ -64,7 +73,7 @@ const IntroPost = (props) => {
               handleClickOpen={handleClickOpen}
               handleClose={handleClose}
               width="32em"
-              height="27em"
+              height={`${height}em`}
               padding="0"
               btn={
                 <PostButton>
@@ -72,7 +81,7 @@ const IntroPost = (props) => {
                 </PostButton>
               }
             >
-              <CreatePost handleClose={handleClose} />
+              <CreatePost handleClose={handleClose} resizeModal={resizeModal} />
             </Modal>
             <Grid />
           </Grid>

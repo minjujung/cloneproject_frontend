@@ -37,8 +37,7 @@ const CreatePost = (props) => {
   const textInput = useRef();
 
   const sizeSmaller = (event) => {
-    if (event.target.scrollHeight > event.target.clientHeight) {
-      console.log(event.target.scrollHeight, event.target.clientHeight);
+    if (event.target.scrollHeight > 152) {
       setSize(1.5);
     }
   };
@@ -49,21 +48,17 @@ const CreatePost = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (textInput === null || textInput.current === null) {
-  //     return;
-  //   }
-  //   textInput.current.style.height = "38px";
-  //   textInput.current.style.height = textInput.current.scrollHeight + "px";
-  // }, []);
-
-  // const resize = () => {
-  //   if (textInput === null || textInput.current === null) {
-  //     return;
-  //   }
-  //   textInput.current.style.height = "38px";
-  //   textInput.current.style.height = textInput.current.scrollHeight + "px";
-  // };
+  const resize = () => {
+    if (textInput === null || textInput.current === null) {
+      return;
+    }
+    let textArea = textInput.current;
+    textArea.style.height = "144px";
+    textArea.style.height = textArea.scrollHeight + "px";
+    if (textArea.scrollHeight > 144) {
+      props.resizeModal(textArea.scrollHeight / 16 + 17.5);
+    }
+  };
 
   return (
     <>
@@ -91,14 +86,13 @@ const CreatePost = (props) => {
           <WriteField>
             <textarea
               ref={textInput}
-              style={{ fontSize: `${size}em`, height: "5.5em" }}
+              style={{ fontSize: `${size}em` }}
               row={4}
               onClick={sizeSmaller}
               onChange={sizeBigger}
-              // onInput={resize}
+              onInput={resize}
               placeholder={`${props.userInfo.firstName}님, 무슨 생각을 하고 계신가요?`}
             />
-            <div style={{ width: "100%", height: "10em" }}></div>
           </WriteField>
           <AddPhotoBtn>
             <span>게시물 추가</span>
@@ -201,7 +195,8 @@ const ShowOption = styled.div`
 `;
 
 const WriteField = styled.div`
-  height: 140px;
+  height: 100%;
+  max-height: 17em;
   margin-bottom: 1em;
   overflow-y: scroll;
   ::-webkit-scrollbar {
@@ -217,7 +212,7 @@ const WriteField = styled.div`
 `;
 
 const AddPhotoBtn = styled.div`
-  width: 93%;
+  width: 90%;
   height: 3em;
   display: flex;
   justify-content: space-between;
@@ -228,6 +223,9 @@ const AddPhotoBtn = styled.div`
   padding: 0.3em 1em;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
     rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  position: absolute;
+  bottom: 3.5em;
+  left: 0.5em;
 `;
 
 const BtnGroup = styled.div`
@@ -241,11 +239,14 @@ const iconStyle = {
 };
 
 const PostBtn = styled.button`
-  width: 100%;
+  width: 97%;
   color: white;
   background-color: #1b74e4;
   border: none;
   border-radius: 0.5em;
   margin-top: 1em;
   padding: 0.8em 0;
+  position: absolute;
+  bottom: 0.5em;
+  left: 0.5em;
 `;
