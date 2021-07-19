@@ -40,7 +40,7 @@ const Post = (props) => {
       <Grid padding="0 1em">
         <Text>{content.text}</Text>
       </Grid>
-      {content.picture.length === 0 ? null : (
+      {content.picture?.length === 0 ? null : (
         <img
           src={content.picture[0]}
           style={{ width: "100%", height: "100%" }}

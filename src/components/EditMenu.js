@@ -10,7 +10,7 @@ import EditPost from "./EditPost";
 import Modal from "./Modal";
 
 export default function EditMenu(props) {
-  const { postId, userInfo, content, comment, like } = props;
+  const { postId } = props;
 
   const dispatch = useDispatch();
 
@@ -62,7 +62,7 @@ export default function EditMenu(props) {
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
+        onClose={handleCloseMenu}
       >
         <Modal
           open={open}
@@ -78,7 +78,12 @@ export default function EditMenu(props) {
             </MenuItem>
           }
         >
-          <EditPost handleClose={handleClose} resizeModal={resizeModal} />
+          <EditPost
+            handleClose={handleClose}
+            resizeModal={resizeModal}
+            handleCloseMenu={handleCloseMenu}
+            {...props}
+          />
         </Modal>
 
         <MenuItem onClick={deletePost}>
