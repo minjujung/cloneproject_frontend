@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreatePost = (props) => {
+const EditPost = (props) => {
   const dispatch = useDispatch();
   const previewImage = useSelector((state) => state.profile.preview);
 
@@ -103,7 +103,7 @@ const CreatePost = (props) => {
   return (
     <>
       <Container>
-        <Title>게시물 만들기</Title>
+        <Title>게시물 수정하기</Title>
         <Button>
           <ClearRounded
             style={{ color: "#606266", fontSize: "2.2em" }}
@@ -207,7 +207,7 @@ const CreatePost = (props) => {
   );
 };
 
-CreatePost.defaultProps = {
+EditPost.defaultProps = {
   userInfo: {
     userEmail: "test@test.com",
     firstName: "사용자",
@@ -215,7 +215,7 @@ CreatePost.defaultProps = {
   },
 };
 
-export default CreatePost;
+export default EditPost;
 
 const Container = styled.div`
   width: 100%;

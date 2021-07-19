@@ -9,7 +9,7 @@ import PhotoLibraryRoundedIcon from "@material-ui/icons/PhotoLibraryRounded";
 import MoodRoundedIcon from "@material-ui/icons/MoodRounded";
 import VideoCallRoundedIcon from "@material-ui/icons/VideoCallRounded";
 
-import Post from "./Post";
+import PostCard from "../elements/PostCard";
 import Grid from "../elements/Grid";
 import Modal from "./Modal";
 import Profile from "../elements/Profile";
@@ -36,21 +36,21 @@ const IntroPost = (props) => {
   };
 
   const handleClose = () => {
-    console.log("close!");
     setOpen(false);
   };
 
   const resizeModal = (h) => {
-    if (h > 35) {
+    let new_height = h + 17.5;
+    if (new_height > 35) {
       return;
     } else {
-      setHeight(h);
+      setHeight(new_height);
     }
   };
 
   return (
     <>
-      <Post>
+      <PostCard>
         <Grid is_flex padding="1em">
           <Button>
             <AddRoundedIcon style={{ color: "#1877F2", fontSize: "30px" }} />
@@ -60,8 +60,8 @@ const IntroPost = (props) => {
             <SubTitle>사진을 공유하거나 글을 남겨보세요</SubTitle>
           </Contents>
         </Grid>
-      </Post>
-      <Post>
+      </PostCard>
+      <PostCard>
         <Grid padding="1em">
           <Grid is_flex>
             <Profile
@@ -105,8 +105,8 @@ const IntroPost = (props) => {
             </MenuButton>
           </BtnContainer>
         </Grid>
-      </Post>
-      <Post>
+      </PostCard>
+      <PostCard>
         <Grid is_flex padding="1em">
           <RoomBtn>
             <VideoCallRoundedIcon
@@ -137,7 +137,7 @@ const IntroPost = (props) => {
             </Badge>
           ))}
         </Grid>
-      </Post>
+      </PostCard>
     </>
   );
 };
