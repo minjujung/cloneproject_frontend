@@ -34,3 +34,8 @@ export const data = [
     },
   },
 ];
+
+export const user_data = {
+  token: "header.body.token",
+  email: true,
+}

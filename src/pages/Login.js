@@ -3,12 +3,29 @@ import Modal from "../components/Modal";
 import styled from "styled-components";
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import {Background, Div, BackgroundC, FacebookLogo, Image, LoginBox, Input, Button, Hr, P, SignUpB, SignUpT, Bottom, ButtonText} from "../components/LoginStyle";
+import {Background, Div, BackgroundC, FacebookLogo, Image, LoginBox, Input, Button, Hr, P, SignUpB, SignUpT, Bottom, ButtonText,
+  H1,P2,DivM,DivMC,NameBox,InputFirstN,InputSecondN,InputEmail,DivPicture,ProfileImage,DivSubButton,SignUpBM,A} from "../components/LoginStyle";
 import { actionCreators as ProfileActions } from "../redux/modules/profile";
 import { useSelector, useDispatch } from "react-redux";
+import x from "../images/x.png";
+import Tooltip from '@material-ui/core/Tooltip';
+import ModalVedio from "../components/ModalVideo";
 
 // todo 중복확인, url, email, name, pw 전송
 const Login = (props) => {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    console.log("close!");
+    setOpen(false);
+  };
+  const onClick = () => {
+    
+  }
   const dispatch = useDispatch();
   const profileInput = React.useRef();
   const is_uploading = useSelector(state => state.profile.uploading);
@@ -20,13 +37,11 @@ const Login = (props) => {
   const [pwd, setPwd] = useState("");
 
   const selectFile = () => {
-    // console.log(profileInput.current.files[0]);
     let profile = profileInput.current.files[0];
     dispatch(ProfileActions.uploadProfileFB(profile))
   }
 
   const duplicate = () => {
-
   }
 
   const signUp = () => {
@@ -34,11 +49,16 @@ const Login = (props) => {
   }
 
   const logIn = () => {
-
   }
+
   return (
     <>
-    <TotalDiv>
+    <VideoContainer>
+      <ModalVedio/>
+<Video onClick={handleClickOpen} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-19-17-37-52.mp41626684611126?alt=media&token=613224f5-a061-44ba-b71b-354df3fe694f"></Video>
+<Video autoplay="autoplay" src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-19-19-30-46.mp41626690661531?alt=media&token=527f5c99-2ecb-43b0-b57c-8b05a2d4cb27"></Video>
+<Video  autoplay="autoplay" src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-19-19-38-08.mp41626691096987?alt=media&token=3ffdfde3-56fc-4f28-b61e-d8e213b7b891"></Video>
+</VideoContainer>
       <Background>
         <Div>
           <BackgroundC>
@@ -48,8 +68,10 @@ const Login = (props) => {
                 Facebook에서 전세계에 있는 친구, 가족, 지인들과 함께 이야기를
                 나눠보세요.
               </h2>
-            </FacebookLogo>
 
+
+
+            </FacebookLogo>
 
             <LoginBox>
               <Input placeholder={"이메일"}></Input>
@@ -57,6 +79,7 @@ const Login = (props) => {
               <Button>로그인</Button>
               <P>비밀번호를 잊으셨나요?</P>
               <Hr width={"90%"} />
+
               <Modal
               width="432px"
               height="495px"
@@ -67,20 +90,38 @@ const Login = (props) => {
                   </SignUpT>
                 </SignUpB>
               }
+              open={open}
+              handleClickOpen={handleClickOpen}
+              handleClose={handleClose}
             >
               <DivM>
+            <img src={x} style={{width:"15px", height:"15px", float:"right"}} onClick={handleClose}/>
               <H1>가입하기</H1>
               <P2 color={"#eee"}>빠르고 쉽습니다.</P2>
               <DivMC>
                 <NameBox>
-                  <InputFirstN onChange={(e) => {setFirst(e.target.value)}} placeholder={"성(性)"}/>
-                  <InputSecondN onChange={(e) => {setName(e.target.value)}} placeholder={"이름(성은 제외)"}/>
+              <Tooltip title="이름이 무엇인가요?">
+                <InputFirstN onChange={(e) => {setFirst(e.target.value)}} placeholder={"성(性)"} onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}}/>
+                </Tooltip>
+                <Tooltip title="이름이 무엇인가요?" arrow>
+                  <InputSecondN onChange={(e) => {setName(e.target.value)}} placeholder={"이름(성은 제외)"} onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}}/>
+                  </Tooltip>
                 </NameBox>
-                <InputEmail onChange={(e) => {setEmail(e.target.value)}} placeholder={"이메일"}/>
-                <InputEmail onKeyPress={(e) => {if(e.key === 'Enter'){console.log(e.target.value);}}} onChange={(e) => {setPwd(e.target.value)}} placeholder={"새 비밀번호"} type={"password"}/>
+              <Tooltip title="로그인할 때와 비밀번호를 재설정해야할 때 사용하는 정보입니다." arrow>
+                <InputEmail onChange={(e) => {setEmail(e.target.value)}} placeholder={"이메일"} onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}}/>
+                </Tooltip>
+              <Tooltip title="숫자, 영문, 특수기호(!,& 등)를 조합한 여섯 자리 이상의 비밀번호를 입력하세요." arrow>
+                <InputEmail onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}} onChange={(e) => {setPwd(e.target.value)}} placeholder={"새 비밀번호"} type={"password"}/>
+                </Tooltip>
 
                 <DivPicture>
+
+                <Tooltip title="아래에 카메라 버튼을 클릭하여 프로필 사진을 선택하세요." placement="left">
+                  <div>
                   <ProfileImage src={profile_url} ></ProfileImage>
+                  </div>
+                  </Tooltip>
+
                   <DivSubButton>
                   <input disabled={is_uploading} ref={profileInput} onChange={selectFile} style={{ display: "none" }} id="icon-button-file" type="file" />
                   <label htmlFor="icon-button-file">
@@ -91,7 +132,7 @@ const Login = (props) => {
                 </DivSubButton>
                 </DivPicture>
 
-                <SignUpBM disabled={is_uploading} width={"200px"}>
+                <SignUpBM onClick={signUp} disabled={is_uploading} width={"200px"}>
                   <SignUpT>
                     가입하기
                   </SignUpT>
@@ -104,130 +145,48 @@ const Login = (props) => {
         </Div>
         <Bottom>
           <ButtonText>
-            <p>
+            <A>
               한국어 English (US) Tiếng Việt Bahasa Indonesia ภาษาไทย Español
               中文(简体) 日本語 Português (Brasil) Français (France) Deutsch
-            </p>
+            </A>
             <Hr />
-            <p>
-              가입하기 로그인 Messenger Facebook LiteWatch 사람페이지페이지
-              카테고리 장소 게임 위치 Marketplace Facebook Pay 그룹 채용 정보
-              Oculus Portal Instagram 지역 기부 캠페인 서비스 투표 정보 센터
-              정보 광고 만들기 페이지 만들기 개발자 채용 정보 개인정보처리방침
-              쿠키 AdChoices 이용 약관 고객 센터 설정활동 로그
-            </p>
+            
+              <A>가입하기 로그인 Messenger Facebook LiteWatch 사람 페이지 
+               페이지 카테고리 장소 게임 위치 Marketplace Facebook Pay 그룹 채용 정보
+               Oculus Portal Instagram 지역 기부 캠페인 서비스 투표 정보 센터
+               정보 광고 만들기 페이지 만들기 개발자 채용 정보 개인정보처리방침
+               쿠키 AdChoices 이용 약관 고객 센터 설정활동 로그
+            </A>
           </ButtonText>
         </Bottom>
       </Background>
-      </TotalDiv>
     </>
   );
 };
 
 export default Login;
 
-const H1 = styled.h1`
-  margin-bottom: -5px;
+const VideoContainer = styled.div`
+display: flex;
 `;
 
-const P2 = styled.p`
-      color: #606770;
-      font-size: 13px;
-      font-weight: 600;
+const VideoContent = styled.div`
+  width: 119.2px;
+  height: 211.91px;
+  background: #ffcdd2;
+  border-radius: 15px;
+  margin: 5px;
 `;
 
-const DivM = styled.div`
-  
-`;
-
-const DivMC = styled.div`
-background-color: #fff;
-    border-radius: 0 0 8px 8px;
-    border-top: 1px solid #dadde1;
-    box-sizing: border-box;
-    padding: 16px;
-    position: relative;
-    width: 432px;
-`;
-
-const NameBox = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const InputFirstN = styled.input`
-      width: 170px;
-      height: 10px;
-      padding: 11px;
-      margin: 0px 5px 10px 0px;
-    font-size: 15px;
-    line-height: 16px;
-    background: #f5f6f7;
-    border-radius: 5px;
-    border: 1px solid #dddfe2;
-`;
-
-const InputSecondN = styled.input`
-      width: 170px;
-      height: 10px;
-      padding: 11px;
-      margin: 0px 0px 10px 5px;
-    font-size: 15px;
-    line-height: 16px;
-    background: #f5f6f7;
-    border-radius: 5px;
-    border: 1px solid #dddfe2;
-`;
-
-const InputEmail = styled.input`
-        width: 375px;
-      height: 10px;
-      padding: 11px;
-      margin: 5px 0px 10px 0px;
-    font-size: 15px;
-    line-height: 16px;
-    background: #f5f6f7;
-    border-radius: 5px;
-    border: 1px solid #dddfe2;
-`;
-
-const TotalDiv = styled.div`
-  text-align: center;
-  width: 100vw;
-  height: 100vh;
-`;
-
-const DivPicture = styled.div`
-  display: flex;
-  margin: 5px 0px 0px 115px;
-`;
-
-const ProfileImage = styled.img`
-  border-radius: 80px;
-  width: 160px;
-  height: 160px;
-`;
-
-const DivSubButton = styled.div`
-text-align: center;
-margin: 130px 0px 0px -30px;
-`;
-
-const SignUpBM = styled.div`
-margin: auto;
-  text-align: center;
-    margin-top: 10px;
-  background-color: #42b72a;
-  width: 150px;
-  height: 30px;
-  padding: 10px 10px 0px 10px;
-  border: none;
-  border-radius: 6px;
-  color: white;
-    &:hover {
-    opacity: 0.9;
+const Video = styled.video`
+ width: 119.2px;
+ border-radius: 15px;
+ margin: 10px;
+ &:hover {
+    opacity: 1.2;
+  height: 210.02px;
+    width: 117px;
     outline: none;
-    background-color: #42b72a;
     cursor: pointer;
   }
 `;

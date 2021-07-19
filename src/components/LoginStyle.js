@@ -12,6 +12,7 @@ export const Background = styled.div`
 export const BackgroundC = styled.div`
   display: flex;
   padding-top: 85px;
+  padding-bottom: 200px;
   
   @media screen and (max-width: 900px) {
     flex-direction: column;
@@ -138,6 +139,7 @@ export const P = styled.p`
   font-size: 14px;
   font-weight: 500;
 `;
+
 export const H1 = styled.h1`
   margin-bottom: -5px;
 `;
@@ -179,7 +181,6 @@ export const InputFirstN = styled.input`
     border: 1px solid #dddfe2;
 `;
 
-
 export const InputSecondN = styled.input`
       width: 170px;
       height: 10px;
@@ -210,27 +211,41 @@ export const TotalDiv = styled.div`
   height: 100vh;
 `;
 
-export const InputU = styled.input`
-          width: 140px;
-      height: 17px;
-      padding: 11px;
-    font-size: 11px;
-    background: #f5f6f7;
-    border-radius: 5px;
-    border: 1px solid #dddfe2;
-`;
-
 export const DivPicture = styled.div`
   display: flex;
-  margin-top: 30px;
+  margin: 5px 0px 0px 115px;
 `;
 
 export const ProfileImage = styled.img`
+  border-radius: 80px;
   width: 160px;
   height: 160px;
 `;
 
-export const DivSub = styled.div`
+export const DivSubButton = styled.div`
 text-align: center;
-margin: 20px 0px 0px 50px;
+margin: 130px 0px 0px -30px;
+`;
+
+export const SignUpBM = styled.div`
+margin: auto;
+  text-align: center;
+    margin-top: 10px;
+  background-color: #42b72a;
+  width: 150px;
+  height: 30px;
+  padding: 10px 10px 0px 10px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+    &:hover {
+    opacity: 0.9;
+    outline: none;
+    background-color: #42b72a;
+    cursor: pointer;
+  }
+`;
+
+export const A = styled.a`
+   word-break: keep-all;
 `;
