@@ -1,6 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import { storage } from "../firebase";
+import { storage } from "../../shared/firebase";
 
 import profile from "../../images/profile.jpg";
 import { actionCreators as profileActions } from "./profile";
