@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Button from "@material-ui/core/Button";
+import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 
 export default function Modal({
@@ -18,7 +16,6 @@ export default function Modal({
       <span onClick={handleClickOpen}>{btn}</span>
       <Dialog
         open={open}
-        // disableBackdropClick
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"

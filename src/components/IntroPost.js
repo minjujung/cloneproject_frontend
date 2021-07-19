@@ -9,7 +9,7 @@ import PhotoLibraryRoundedIcon from "@material-ui/icons/PhotoLibraryRounded";
 import MoodRoundedIcon from "@material-ui/icons/MoodRounded";
 import VideoCallRoundedIcon from "@material-ui/icons/VideoCallRounded";
 
-import Post from "./Post";
+import PostCard from "../elements/PostCard";
 import Grid from "../elements/Grid";
 import Modal from "./Modal";
 import Profile from "../elements/Profile";
@@ -25,6 +25,7 @@ const styles = (theme) => ({
 
 const IntroPost = (props) => {
   const users_length = [1, 2, 3, 4];
+  const [height, setHeight] = useState(27);
 
   const { classes } = props;
 
@@ -35,13 +36,21 @@ const IntroPost = (props) => {
   };
 
   const handleClose = () => {
-    console.log("close!");
     setOpen(false);
+  };
+
+  const resizeModal = (h) => {
+    let new_height = h + 17.5;
+    if (new_height > 35) {
+      return;
+    } else {
+      setHeight(new_height);
+    }
   };
 
   return (
     <>
-      <Post>
+      <PostCard>
         <Grid is_flex padding="1em">
           <Button>
             <AddRoundedIcon style={{ color: "#1877F2", fontSize: "30px" }} />
@@ -51,8 +60,8 @@ const IntroPost = (props) => {
             <SubTitle>사진을 공유하거나 글을 남겨보세요</SubTitle>
           </Contents>
         </Grid>
-      </Post>
-      <Post>
+      </PostCard>
+      <PostCard>
         <Grid padding="1em">
           <Grid is_flex>
             <Profile
@@ -64,7 +73,7 @@ const IntroPost = (props) => {
               handleClickOpen={handleClickOpen}
               handleClose={handleClose}
               width="32em"
-              height="27em"
+              height={`${height}em`}
               padding="0"
               btn={
                 <PostButton>
@@ -72,7 +81,7 @@ const IntroPost = (props) => {
                 </PostButton>
               }
             >
-              <CreatePost handleClose={handleClose} />
+              <CreatePost handleClose={handleClose} resizeModal={resizeModal} />
             </Modal>
             <Grid />
           </Grid>
@@ -96,8 +105,8 @@ const IntroPost = (props) => {
             </MenuButton>
           </BtnContainer>
         </Grid>
-      </Post>
-      <Post>
+      </PostCard>
+      <PostCard>
         <Grid is_flex padding="1em">
           <RoomBtn>
             <VideoCallRoundedIcon
@@ -128,7 +137,7 @@ const IntroPost = (props) => {
             </Badge>
           ))}
         </Grid>
-      </Post>
+      </PostCard>
     </>
   );
 };
