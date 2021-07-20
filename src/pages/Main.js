@@ -4,17 +4,22 @@ import CurrentUser from "../components/CurrentUser";
 import Header from "../components/Header";
 import PostList from "../components/PostList";
 import SideMenus from "../components/SideMenus";
+import { useDispatch } from "react-redux";
+import { actionCreators as UserActions } from "../redux/modules/user";
 
 const Main = (props) => {
-  const is_token = document.cookie;
-  console.log(is_token==="MY_COOKIE=")
-  const goLogin = () => {
-    window.location.href = '/login';
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(UserActions.loginCheckDB())
+  },[])
+
+  const is_token = document.cookie.split("=")[1];
+
+  if(is_token===""||is_token===undefined){
+    window.location.href = ("/login");
   }
   return (
-    <div>{is_token==="MY_COOKIE="?
-    <div>로그인 후 이용해주세요!<button onClick={goLogin}>로그인</button></div>
-    :
+
     <Container>
     <Header />
     <Sections>
@@ -23,7 +28,6 @@ const Main = (props) => {
       <CurrentUser />
     </Sections>
   </Container>
-    }</div>
 
   );
 };

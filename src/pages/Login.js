@@ -12,8 +12,8 @@ import { useSelector, useDispatch } from "react-redux";
 import x from "../images/x.png";
 import Tooltip from '@material-ui/core/Tooltip';
 import ModalVedio from "../components/ModalVideo";
+import Spinner from "../elements/Spinner";
 // import Spinner from "../elements/Spinner";
-import axios from "axios";
 
 // todo 중복확인, url, email, name, pw 전송
 const Login = (props) => {
@@ -59,8 +59,11 @@ const logout = () => {
   }
 
   const _logIn = () => {
-    console.log("df")
     dispatch(UserActions.loginDB(emailL,pwdL));
+  }
+
+  const loginCheck = () => {
+    dispatch(UserActions.loginCheckDB())
   }
 
   // const like_plus = () => {
@@ -89,13 +92,14 @@ const logout = () => {
     <>
         {/* <button onClick={like_plus}>더하기</button> */}
     {/* <input value={payloadLike}/> */}
-     {/* <ModalVedio/> */}
+     {/* <ModalVedio x={"df"}/> */}
 
       <Background>
         <Div>
           <BackgroundC>
             <FacebookLogo>
         <button onClick={logout}>로그아웃</button>
+        <button onClick={loginCheck}>유저 정보 가져오기</button>
 
               <Image src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg" />
               <h2>
@@ -129,7 +133,6 @@ const logout = () => {
               handleClose={handleClose}
             >
               <DivM>
-                {/* {is_uploading?<Spinner/>:<div> */}
             <img src={x} style={{width:"15px", height:"15px", float:"right"}} onClick={handleClose}/>
               <H1>가입하기</H1>
               <P2 color={"#eee"}>빠르고 쉽습니다.</P2>
@@ -153,7 +156,10 @@ const logout = () => {
 
                 <Tooltip title="아래에 카메라 버튼을 클릭하여 프로필 사진을 선택하세요." placement="left">
                   <div>
+                  {is_uploading?<Spinner/>:
                   <ProfileImage src={profile_url} ></ProfileImage>
+                
+                }
                   </div>
                   </Tooltip>
 

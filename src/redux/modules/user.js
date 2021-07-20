@@ -1,6 +1,8 @@
 import { createAction, handleActions } from "redux-actions";
 import produce from "immer";
 import axios from "axios";
+import instance from "../../shared/api";
+
 
 const SET_USER = "SET_USER";
 const GET_USER = "GET_USER";
@@ -18,7 +20,6 @@ const initialState = {
 }
 
 const signUpDB = (firstName, lastName, email, pwd, profile_url, handleClose) => {
-    console.log(handleClose)
     console.log(firstName, lastName, email, pwd, profile_url)
     return function (dispatch, getState, {history}){
         axios({
@@ -72,7 +73,7 @@ const loginDB = (email, pwd) => {
             },
         })
         .then((res) => {
-            console.log(res) //201 에러 200 정상 (로그인 시)
+            console.log(res.data.token) //201 에러 200 정상 (로그인 시)
             if(res.status===200){
                 console.log(res.data)
                 const name = res.data.userInfo.fullName
@@ -94,6 +95,22 @@ const _logOut = () => {
     dispatch(logOut());
     history.replace("/login");
 }
+}
+
+const loginCheckDB = () => {
+    return function (dispatch, getState, {history}){
+        instance
+        .get(`/api/me`)
+        .then((res) => {
+          console.log(res.data.userInfo);
+          const email = res.data.userInfo.email;
+          const name = res.data.userInfo.firstName + res.data.userInfo.lastName;
+          const profile_url = res.data.userInfo.profilePic;
+          dispatch(setUser({email, name, profile_url}))
+
+        })
+        .catch((error) => console.log(error));
+    }
 }
 
 export default handleActions({
@@ -121,6 +138,7 @@ const actionCreators = {
     loginDB,
     // duplicate,
     _logOut,
+    loginCheckDB,
 }
 
 export { actionCreators };
