@@ -1,6 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import produce from "immer";
 import { storage } from "../../shared/firebase";
+import profile from "../../images/profile.jpg";
 
 const UPLOADING = "UPLOADING";
 const UPLOAD_PROFILE = "UPLOAD_PROFILE";
@@ -13,7 +14,7 @@ const uploadProfile = createAction(UPLOAD_PROFILE, (profile_url) => ({
 const setPreview = createAction(SET_PREVIEW, (preview) => ({ preview }));
 
 const initialState = {
-  profile_url: "",
+  profile_url: profile,
   uploading: false,
   preview: null,
 };
