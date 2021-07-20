@@ -151,18 +151,13 @@ const logout = () => {
               <Tooltip title="숫자, 영문, 특수기호(!,& 등)를 조합한 여섯 자리 이상의 비밀번호를 입력하세요." arrow>
                 <InputEmail onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}} onChange={(e) => {setPwd(e.target.value)}} placeholder={"새 비밀번호"} type={"password"}/>
                 </Tooltip>
-
-                <DivPicture>
-
-                <Tooltip title="아래에 카메라 버튼을 클릭하여 프로필 사진을 선택하세요." placement="left">
-                  <div>
+                <div>
                   {is_uploading?<Spinner/>:
+                <div>
+                <DivPicture>
+                <Tooltip title="아래에 카메라 버튼을 클릭하여 프로필 사진을 선택하세요." placement="left">
                   <ProfileImage src={profile_url} ></ProfileImage>
-                
-                }
-                  </div>
                   </Tooltip>
-
                   <DivSubButton>
                   <input disabled={is_uploading} ref={profileInput} onChange={selectFile} style={{ display: "none" }} id="icon-button-file" type="file" />
                   <label htmlFor="icon-button-file">
@@ -172,14 +167,15 @@ const logout = () => {
                   </label>
                 </DivSubButton>
                 </DivPicture>
-
                 <SignUpBM onClick={signUp} disabled={is_uploading} width={"200px"}>
                   <SignUpT>
                     가입하기
                   </SignUpT>
                 </SignUpBM>
+                </div>}</div>
+
+
               </DivMC>
-              {/* </div>} */}
               </DivM>
             </Modal>
             </LoginBox>
