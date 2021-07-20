@@ -193,9 +193,6 @@ const getPostDB =
       .then((res) => {
         console.log(res);
         dispatch(setPost(res.data));
-        // const post_id = res.data.list.postId;
-        // const comment = res.data.list.comment;
-        // dispatch(commentActions.setComment(post_id, comment));
       })
       .catch((error) => {
         console.log(error);

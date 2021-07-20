@@ -20,6 +20,7 @@ const styles = (theme) => ({
   customBadge: {
     backgroundColor: "green",
     color: "white",
+    zIndex: "0",
   },
 });
 

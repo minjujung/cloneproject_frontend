@@ -3,20 +3,27 @@ import styled from "styled-components";
 
 import fakebook from "../images/fakebook.png";
 import messanger from "../images/messanger.png";
-import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
-import OndemandVideoIcon from "@material-ui/icons/OndemandVideo";
-import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
-import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
-import AppsRoundedIcon from "@material-ui/icons/AppsRounded";
-import NotificationsRoundedIcon from "@material-ui/icons/NotificationsRounded";
-import ArrowDropDownRoundedIcon from "@material-ui/icons/ArrowDropDownRounded";
-import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
+import {
+  HomeRounded,
+  OndemandVideo,
+  PeopleOutline,
+  SportsEsports,
+  AppsRounded,
+  NotificationsRounded,
+  ArrowDropDownRounded,
+  SearchRounded,
+} from "@material-ui/icons";
 
 import profile from "../images/profile.jpg";
 import Grid from "../elements/Grid";
 import Profile from "../elements/Profile";
 
+import { useSelector } from "react-redux";
+
 const Header = (props) => {
+  const userInfo = useSelector((state) => state.user);
+  console.log(userInfo);
+
   return (
     <>
       <HeaderStyle>
@@ -29,43 +36,43 @@ const Header = (props) => {
         />
         <Grid is_flex>
           <SearchBtn>
-            <SearchRoundedIcon style={{ marginRight: "0.3em" }} />
+            <SearchRounded style={{ marginRight: "0.3em" }} />
             Fakebook 검색
           </SearchBtn>
         </Grid>
         <MainMenu>
           <Item>
-            <HomeRoundedIcon style={IconStyle} />
+            <HomeRounded style={IconStyle} />
           </Item>
           <Item>
-            <OndemandVideoIcon style={IconStyle} />
+            <OndemandVideo style={IconStyle} />
           </Item>
           <Item>
-            <PeopleOutlineIcon style={IconStyle} />
+            <PeopleOutline style={IconStyle} />
           </Item>
           <Item>
-            <SportsEsportsIcon style={IconStyle} />
+            <SportsEsports style={IconStyle} />
           </Item>
         </MainMenu>
         <SideMenu>
           <User>
             <Profile
-              src={props.profile ? props.profile : profile}
+              src={userInfo.profile_url ? userInfo.profile_url : profile}
               margin="0 0.5em 0 0"
             />
-            {props.userInfo.firstName}
+            {userInfo.user_name}
           </User>
           <Button>
-            <AppsRoundedIcon />
+            <AppsRounded />
           </Button>
           <Button>
             <Messanger src={messanger} alt="messanger" />
           </Button>
           <Button>
-            <NotificationsRoundedIcon />
+            <NotificationsRounded />
           </Button>
           <Button>
-            <ArrowDropDownRoundedIcon
+            <ArrowDropDownRounded
               style={{
                 fontSize: "35px",
               }}

@@ -5,6 +5,9 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { MoreHoriz } from "@material-ui/icons";
 
+import { useDispatch } from "react-redux";
+import { actionCreators as commentActions } from "../redux/modules/comment";
+
 const StyledMenu = withStyles({
   paper: {
     border: "1px solid #d3d4d5",
@@ -22,7 +25,7 @@ const StyledMenu = withStyles({
     }}
     transformOrigin={{
       vertical: "top",
-      horizontal: "left",
+      horizontal: "center",
     }}
     {...props}
   />
@@ -37,7 +40,8 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-export default function CommentMenu() {
+export default function CommentMenu({ cmtId, postId }) {
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -46,6 +50,12 @@ export default function CommentMenu() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const updateCmt = () => {};
+
+  const deleteCmt = () => {
+    dispatch(commentActions.deleteCommentDB(cmtId, postId));
   };
 
   return (
@@ -60,8 +70,8 @@ export default function CommentMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem>수정</StyledMenuItem>
-        <StyledMenuItem>삭제</StyledMenuItem>
+        <StyledMenuItem onClick={updateCmt}>수정</StyledMenuItem>
+        <StyledMenuItem onClick={deleteCmt}>삭제</StyledMenuItem>
       </StyledMenu>
     </div>
   );

@@ -2,6 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 
 import instance from "../../shared/api";
+import profile from "../../images/profile.jpg";
 
 import { actionCreators as postActions } from "./post";
 
@@ -29,53 +30,68 @@ const editComment = createAction(EDIT_COMMENT, (comment_id, comment) => ({
 }));
 
 const initialState = {
-  list: {},
+  list: {
+    1: [
+      {
+        writerInfo: {
+          name: "댓글러",
+          profile,
+        },
+        commentId: 1,
+        commentText: "blah blah",
+        commentCreatedAt: " 1min ago",
+      },
+    ],
+  },
 };
 
 const addCommentDB =
-  (postId, content) =>
+  (post_id, comment) =>
   (dispatch, getState, { history }) => {
-    let comment = {
-      commentText: content,
+    let new_comment = {
+      postId: post_id,
+      commentText: comment,
     };
 
-    instance.post("/api/comments", comment).then((res) => {
-      console.log(comment);
-      const post_idx = getState().post.list.findIndex(
-        (p) => p.postId === postId
-      );
-      const _post = getState().post.list[post_idx];
+    instance.post("/api/comments", new_comment).then((res) => {
       console.log(res);
-      const user_info = getState().user.user;
+      const post_list = getState().post.list;
 
-      const new_comment = {
-        ...comment,
-        userInfo: {
-          firstName: user_info?.firstName || "test@test.com",
-          lastName: user_info?.lasName || "test user name",
-          profilePic: user_info?.profilePic || "../../images/profile.jpg",
-        },
+      const post_idx = post_list.findIndex((p) => p.postId === post_id);
+      const _post = post_list[post_idx];
+      console.log(_post);
+
+      const user_info = getState().user;
+
+      const _comment = {
+        commentText: comment,
+        userName: user_info.userName,
+        profilePic: user_info.profile_url,
       };
-      console.log(postId, new_comment);
-      dispatch(addComment(postId, new_comment));
 
-      let comment_list = [];
-      comment_list.push(new_comment);
+      const new_post = { ..._post, comments: [_comment, ..._post.comments] };
 
-      dispatch(
-        postActions.editPost(postId, { ..._post, comment: comment_list })
-      );
+      dispatch(postActions.editPost(post_id, new_post));
     });
   };
 
 const deleteCommentDB =
-  (commentId) =>
+  (commentId, postId) =>
   (dispatch, getState, { history }) => {
     instance
       .delete(`/api/comments/${commentId}`)
       .then((res) => {
         console.log(res);
-        dispatch(deleteComment(commentId));
+
+        const post_list = getState().post.list;
+        const post_idx = post_list.findIndex((p) => p.postId === postId);
+        const _post = post_list[post_idx];
+
+        const cmt_idx = _post.comments.findIndex(
+          (cmt) => cmt.commentId === commentId
+        );
+        _post.comments.splice(cmt_idx, 1);
+        dispatch(postActions.editPost(postId, _post));
       })
       .catch((error) => console.log(error));
   };
