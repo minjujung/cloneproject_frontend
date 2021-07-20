@@ -1,13 +1,12 @@
 import { createAction, handleActions } from "redux-actions";
 import produce from "immer";
 import axios from "axios";
+import instance from "../../shared/api";
 
 const SET_USER = "SET_USER";
-const GET_USER = "GET_USER";
 const LOG_OUT = "LOG_OUT";
 
 const setUser = createAction(SET_USER, (user) => ({ user }));
-const getUser = createAction(GET_USER, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 
 const initialState = {
@@ -18,7 +17,6 @@ const initialState = {
 }
 
 const signUpDB = (firstName, lastName, email, pwd, profile_url, handleClose) => {
-    console.log(handleClose)
     console.log(firstName, lastName, email, pwd, profile_url)
     return function (dispatch, getState, {history}){
         axios({
@@ -72,9 +70,8 @@ const loginDB = (email, pwd) => {
             },
         })
         .then((res) => {
-            console.log(res) //201 에러 200 정상 (로그인 시)
+            console.log(res.data.token) //201 에러 200 정상 (로그인 시)
             if(res.status===200){
-                console.log(res.data)
                 const name = res.data.userInfo.fullName
                 const profile_url = res.data.userInfo.profilePic
                 document.cookie = `MY_COOKIE=${res.data.token};`;
@@ -96,6 +93,22 @@ const _logOut = () => {
 }
 }
 
+const loginCheckDB = () => {
+    return function (dispatch, getState, {history}){
+        instance
+        .get(`/api/me`)
+        .then((res) => {
+          console.log(res.data.userInfo);
+          const email = res.data.userInfo.email;
+          const name = res.data.userInfo.firstName + res.data.userInfo.lastName;
+          const profile_url = res.data.userInfo.profilePic;
+          dispatch(setUser({email, name, profile_url}))
+
+        })
+        .catch((error) => console.log(error));
+    }
+}
+
 export default handleActions({
     [SET_USER]: (state, action) => produce(state, (draft) => {
         draft.email = action.payload.user.email;
@@ -103,8 +116,6 @@ export default handleActions({
         draft.profile_url = action.payload.user.profile_url;
         draft.is_login = true;
         // draft.user_name = action.payload.user_name;
-    }),
-    [GET_USER]: (state, action) => produce(state, (draft) => {;
     }),
     [LOG_OUT]: (state, action) => produce(state, (draft) => {
         draft.email = null;
@@ -121,6 +132,7 @@ const actionCreators = {
     loginDB,
     // duplicate,
     _logOut,
+    loginCheckDB,
 }
 
 export { actionCreators };
