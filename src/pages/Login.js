@@ -6,14 +6,21 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import {Background, Div, BackgroundC, FacebookLogo, Image, LoginBox, Input, Button, Hr, P, SignUpB, SignUpT, Bottom, ButtonText,
   H1,P2,DivM,DivMC,NameBox,InputFirstN,InputSecondN,InputEmail,DivPicture,ProfileImage,DivSubButton,SignUpBM,A} from "../components/LoginStyle";
 import { actionCreators as ProfileActions } from "../redux/modules/profile";
+import { actionCreators as LikeActions } from "../redux/modules/like";
+import { actionCreators as UserActions } from "../redux/modules/user";
 import { useSelector, useDispatch } from "react-redux";
 import x from "../images/x.png";
 import Tooltip from '@material-ui/core/Tooltip';
 import ModalVedio from "../components/ModalVideo";
+// import Spinner from "../elements/Spinner";
+import axios from "axios";
 
 // todo 중복확인, url, email, name, pw 전송
 const Login = (props) => {
   const [open, setOpen] = useState(false);
+  // const [like, setLike] = useState(0);
+  // const payloadLike = useSelector((state) => state.like.like_cnt)
+  // const [likeState, setLikeState] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -23,9 +30,7 @@ const Login = (props) => {
     console.log("close!");
     setOpen(false);
   };
-  const onClick = () => {
-    
-  }
+
   const dispatch = useDispatch();
   const profileInput = React.useRef();
   const is_uploading = useSelector(state => state.profile.uploading);
@@ -36,33 +41,62 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
 
+  const [emailL, setEmailL] = useState("");
+  const [pwdL, setPwdL] = useState("");
+
+  
   const selectFile = () => {
     let profile = profileInput.current.files[0];
     dispatch(ProfileActions.uploadProfileFB(profile))
   }
 
-  const duplicate = () => {
-  }
+const logout = () => {
+  dispatch(UserActions._logOut());
+}
 
   const signUp = () => {
-    console.log(FirstName, Name, email, pwd)
+    dispatch(UserActions.signUpDB(FirstName, Name, email, pwd, profile_url, handleClose));
   }
 
-  const logIn = () => {
+  const _logIn = () => {
+    console.log("df")
+    dispatch(UserActions.loginDB(emailL,pwdL));
   }
+
+  // const like_plus = () => {
+  //   if(!likeState){
+  //     let _like = like+1
+      
+  //     setLike(_like);
+  //     setLikeState(true);
+  //   console.log(likeState);
+  //   console.log(_like)
+  //   dispatch(LikeActions.setLike(_like));
+  //   }
+    
+  //   else {
+  //     let _like = like -1
+  //     setLike(_like);
+  //     setLikeState(false);
+  //   console.log(likeState);
+  //   dispatch(LikeActions.setLike(_like));
+  //   }
+  //   console.log(likeState);
+
+  // }
 
   return (
     <>
-    <VideoContainer>
-      <ModalVedio/>
-<Video onClick={handleClickOpen} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-19-17-37-52.mp41626684611126?alt=media&token=613224f5-a061-44ba-b71b-354df3fe694f"></Video>
-<Video autoplay="autoplay" src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-19-19-30-46.mp41626690661531?alt=media&token=527f5c99-2ecb-43b0-b57c-8b05a2d4cb27"></Video>
-<Video  autoplay="autoplay" src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-19-19-38-08.mp41626691096987?alt=media&token=3ffdfde3-56fc-4f28-b61e-d8e213b7b891"></Video>
-</VideoContainer>
+        {/* <button onClick={like_plus}>더하기</button> */}
+    {/* <input value={payloadLike}/> */}
+     {/* <ModalVedio/> */}
+
       <Background>
         <Div>
           <BackgroundC>
             <FacebookLogo>
+        <button onClick={logout}>로그아웃</button>
+
               <Image src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg" />
               <h2>
                 Facebook에서 전세계에 있는 친구, 가족, 지인들과 함께 이야기를
@@ -74,9 +108,9 @@ const Login = (props) => {
             </FacebookLogo>
 
             <LoginBox>
-              <Input placeholder={"이메일"}></Input>
-              <Input placeholder={"비밀번호"} type={"password"}></Input>
-              <Button>로그인</Button>
+              <Input onChange={(e) => {setEmailL(e.target.value)}} placeholder={"이메일"}></Input>
+              <Input onChange={(e) => {setPwdL(e.target.value)}} placeholder={"비밀번호"} type={"password"}></Input>
+              <Button onClick={_logIn}>로그인</Button>
               <P>비밀번호를 잊으셨나요?</P>
               <Hr width={"90%"} />
 
@@ -95,6 +129,7 @@ const Login = (props) => {
               handleClose={handleClose}
             >
               <DivM>
+                {/* {is_uploading?<Spinner/>:<div> */}
             <img src={x} style={{width:"15px", height:"15px", float:"right"}} onClick={handleClose}/>
               <H1>가입하기</H1>
               <P2 color={"#eee"}>빠르고 쉽습니다.</P2>
@@ -138,6 +173,7 @@ const Login = (props) => {
                   </SignUpT>
                 </SignUpBM>
               </DivMC>
+              {/* </div>} */}
               </DivM>
             </Modal>
             </LoginBox>
@@ -165,28 +201,3 @@ const Login = (props) => {
 };
 
 export default Login;
-
-const VideoContainer = styled.div`
-display: flex;
-`;
-
-const VideoContent = styled.div`
-  width: 119.2px;
-  height: 211.91px;
-  background: #ffcdd2;
-  border-radius: 15px;
-  margin: 5px;
-`;
-
-const Video = styled.video`
- width: 119.2px;
- border-radius: 15px;
- margin: 10px;
- &:hover {
-    opacity: 1.2;
-  height: 210.02px;
-    width: 117px;
-    outline: none;
-    cursor: pointer;
-  }
-`;

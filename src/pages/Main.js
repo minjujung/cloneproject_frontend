@@ -6,15 +6,25 @@ import PostList from "../components/PostList";
 import SideMenus from "../components/SideMenus";
 
 const Main = (props) => {
+  const is_token = document.cookie;
+  console.log(is_token==="MY_COOKIE=")
+  const goLogin = () => {
+    window.location.href = '/login';
+  }
   return (
+    <div>{is_token==="MY_COOKIE="?
+    <div>로그인 후 이용해주세요!<button onClick={goLogin}>로그인</button></div>
+    :
     <Container>
-      <Header />
-      <Sections>
-        <SideMenus />
-        <PostList />
-        <CurrentUser />
-      </Sections>
-    </Container>
+    <Header />
+    <Sections>
+      <SideMenus />
+      <PostList />
+      <CurrentUser />
+    </Sections>
+  </Container>
+    }</div>
+
   );
 };
 
