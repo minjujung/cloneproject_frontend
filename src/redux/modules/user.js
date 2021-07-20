@@ -3,7 +3,6 @@ import produce from "immer";
 import axios from "axios";
 import instance from "../../shared/api";
 
-
 const SET_USER = "SET_USER";
 const LOG_OUT = "LOG_OUT";
 
