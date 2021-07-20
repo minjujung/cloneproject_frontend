@@ -10,15 +10,17 @@ import {
 import PostCard from "../elements/PostCard";
 import Grid from "../elements/Grid";
 import Profile from "../elements/Profile";
-import Input from "../elements/Input";
+
 import likeIcon from "../images/like.png";
 import profile from "../images/profile.jpg";
 import EditMenu from "./EditMenu";
 
 import moment from "moment";
+import CommentList from "./CommentList";
 
 const Post = (props) => {
   const { postId, userInfo, content, comment, like } = props;
+
   return (
     <PostCard>
       <Grid padding="1em 1em 0 1em">
@@ -40,9 +42,9 @@ const Post = (props) => {
       <Grid padding="0 1em">
         <Text>{content.text}</Text>
       </Grid>
-      {content.picture.length === 0 ? null : (
+      {!content.picture ? null : (
         <img
-          src={content.picture[0]}
+          src={content.picture}
           style={{ width: "100%", height: "100%" }}
           alt="article"
         />
@@ -85,22 +87,7 @@ const Post = (props) => {
         </Grid>
         <Line />
       </Grid>
-      <Grid is_flex padding="1em">
-        <Profile src={profile} margin="0 0.5em 0 0" />
-        <Input placeholder="댓글을 입력하세요..." />
-      </Grid>
-      {comment.map((c) => (
-        <Grid is_flex padding="1em" key={c.commentId}>
-          <Profile src={profile} margin="0 0.5em 0 0" alignSelf="flex-start" />
-          <Grid>
-            <CommentBox>
-              <Commenter>{c.writerInfo.name}</Commenter>
-              <Comment>{c.commentText}</Comment>
-            </CommentBox>
-            <Time>{c.commentCreatedAt}</Time>
-          </Grid>
-        </Grid>
-      ))}
+      <CommentList postId={postId} comment={comment} />
     </PostCard>
   );
 };
@@ -193,30 +180,4 @@ const MenuButton = styled.button`
   &:hover {
     background-color: #f0f2f5;
   }
-`;
-
-const CommentBox = styled.div`
-  background-color: #f0f2f5;
-  border-radius: 1.3em;
-  box-sizing: border-box;
-  padding: 0.5em;
-`;
-
-const Commenter = styled.p`
-  margin: 0.3em 0;
-  text-align: left;
-  font-size: 13px;
-  font-weight: 600;
-`;
-
-const Comment = styled.p`
-  margin: 0;
-  text-align: left;
-  font-size: 17px;
-`;
-
-const Time = styled.p`
-  margin: 0 0 0 0.6em;
-  text-align: left;
-  font-size: 13px;
 `;

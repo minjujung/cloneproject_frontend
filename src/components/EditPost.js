@@ -1,4 +1,4 @@
-import React, { usetextInput, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import {
@@ -36,14 +36,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditPost = (props) => {
+  const { postId, userInfo, content, comment, like } = props;
+
   const dispatch = useDispatch();
   const previewImage = useSelector((state) => state.profile.preview);
 
   const classes = useStyles();
   const [size, setSize] = useState(1.9);
   const [postText, setPostText] = useState("");
-  const textInput = useRef();
-  const imageInput = useRef();
+  const textInput = useRef(null);
+  const imageInput = useRef(null);
+
+  useEffect(() => {
+    if (content.picture) {
+      console.log(content.picture);
+      dispatch(imageActions.setPreview(content.picture));
+      props.resizeModal(17);
+    }
+    setPostText(content.text);
+  }, []);
 
   const sizeSmaller = (event) => {
     if (event.target.scrollHeight > 152) {
@@ -90,14 +101,12 @@ const EditPost = (props) => {
     };
   };
 
-  // const deleteFile = (idx) => {
-  //   const s = fileList.filter((item, index) => index !== idx);
-  //   setFileList(s);
-  // };
-
-  const addOnePost = () => {
-    dispatch(postActions.addPostDB(postText));
+  const editOnePost = () => {
+    console.log(postId);
+    dispatch(postActions.editPostDB(postId, postText));
     props.handleClose();
+    props.handleCloseMenu();
+    props.resizeModal(9);
   };
 
   return (
@@ -131,7 +140,7 @@ const EditPost = (props) => {
               onClick={sizeSmaller}
               onChange={sizeBigger}
               onInput={resize}
-              placeholder={`${props.userInfo.firstName}님, 무슨 생각을 하고 계신가요?`}
+              placeholder={`${userInfo.firstName}님, 무슨 생각을 하고 계신가요?`}
             />
             {previewImage ? (
               <>
@@ -194,10 +203,10 @@ const EditPost = (props) => {
               </BtnGroup>
             </AddPhotoBtn>
             <PostBtn
-              onClick={addOnePost}
+              onClick={editOnePost}
               disabled={postText === "" ? true : false}
             >
-              게시
+              수정
             </PostBtn>
           </BtnContainer>
         </Grid>
@@ -281,7 +290,7 @@ const ShowOption = styled.div`
 
 const WriteField = styled.div`
   height: 100%;
-  max-height: 17em;
+  max-height: 16em;
   margin-bottom: 1em;
   overflow-y: scroll;
   ::-webkit-scrollbar {
