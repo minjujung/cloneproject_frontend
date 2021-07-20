@@ -10,7 +10,6 @@ import {
   SportsEsports,
   AppsRounded,
   NotificationsRounded,
-  ArrowDropDownRounded,
   SearchRounded,
   DirectionsRun,
 } from "@material-ui/icons";

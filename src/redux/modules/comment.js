@@ -64,9 +64,11 @@ const addCommentDB =
       const user_info = getState().user;
 
       const _comment = {
+        commentId: res.data.commentId,
         commentText: comment,
-        userName: user_info.userName,
+        userName: user_info.user_name,
         profilePic: user_info.profile_url,
+        commentCreatedAt: res.data.commentCreatedAt,
       };
 
       const new_post = { ..._post, comments: [_comment, ..._post.comments] };
@@ -90,15 +92,41 @@ const deleteCommentDB =
         const cmt_idx = _post.comments.findIndex(
           (cmt) => cmt.commentId === commentId
         );
-        _post.comments.splice(cmt_idx, 1);
-        dispatch(postActions.editPost(postId, _post));
+
+        const new_list = _post.comments.filter((cmt, idx) => idx !== cmt_idx);
+
+        const new_post = { ..._post, comments: new_list };
+        dispatch(postActions.editPost(postId, new_post));
       })
       .catch((error) => console.log(error));
   };
 
 const editCommentDB =
-  (postId, comment) =>
-  (dispatch, getState, { history }) => {};
+  (postId, commentId, comment) =>
+  (dispatch, getState, { history }) => {
+    instance
+      .put(`/api/comments/${commentId}`, { commentId, commentText: comment })
+      .then((res) => {
+        console.log(res);
+
+        const post_list = getState().post.list;
+        const post_idx = post_list.findIndex((p) => p.postId === postId);
+        const _post = post_list[post_idx];
+
+        const cmt_idx = _post.comments.findIndex(
+          (cmt) => cmt.commentId === commentId
+        );
+
+        const new_list = _post.comments.map((cmt, idx) =>
+          idx === cmt_idx ? { ...cmt, commentText: comment } : cmt
+        );
+
+        const new_post = { ..._post, comments: new_list };
+
+        dispatch(postActions.editPost(postId, new_post));
+      })
+      .catch((error) => console.log(error));
+  };
 
 export default handleActions(
   {
@@ -120,4 +148,5 @@ export const actionCreators = {
   setComment,
   addCommentDB,
   deleteCommentDB,
+  editCommentDB,
 };

@@ -22,7 +22,7 @@ const Post = (props) => {
   const { postId, userInfo, content, comments, like } = props;
 
   return (
-    <PostCard>
+    <PostCard padding="0 0 1em 0">
       <Grid padding="1em 1em 0 1em">
         <Grid is_flex space_between>
           <p style={{ margin: "0", textAlign: "left" }}>
