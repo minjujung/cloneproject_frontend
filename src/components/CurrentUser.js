@@ -14,6 +14,7 @@ const styles = (theme) => ({
     backgroundColor: "green",
     color: "white",
     marginRright: "1em",
+    zIndex: "0",
   },
 });
 

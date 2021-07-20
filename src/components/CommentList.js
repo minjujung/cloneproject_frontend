@@ -10,19 +10,17 @@ import { useDispatch } from "react-redux";
 import { actionCreators as commentActions } from "../redux/modules/comment";
 import CommentMenu from "./CommentMenu";
 
-const CommentList = ({ comment, postId }) => {
+const CommentList = ({ comments, postId }) => {
   const dispatch = useDispatch();
 
   const [cmtText, setCmtText] = useState("");
 
   const writeCmt = (e) => {
-    console.log(e.target.value);
     setCmtText(e.target.value);
   };
 
   const addCmt = (e) => {
     if (e.key === "Enter") {
-      console.log(postId, cmtText);
       dispatch(commentActions.addCommentDB(postId, cmtText));
     }
   };
@@ -38,16 +36,20 @@ const CommentList = ({ comment, postId }) => {
           _onKeyPress={addCmt}
         />
       </Grid>
-      {comment.map((c) => (
+      {comments.map((c) => (
         <Grid is_flex padding="1em" key={c.commentId}>
-          <Profile src={profile} margin="0 0.5em 0 0" alignSelf="flex-start" />
+          <Profile
+            src={c.profilePic}
+            margin="0 0.5em 0 0"
+            alignSelf="flex-start"
+          />
           <Grid>
             <Grid is_flex>
               <CommentBox>
-                <Commenter>{c.writerInfo.name}</Commenter>
+                <Commenter>{c.user_name}</Commenter>
                 <Comment>{c.commentText}</Comment>
               </CommentBox>
-              <CommentMenu />
+              <CommentMenu cmtId={c.commentId} postId={postId} />
             </Grid>
             <Time>{c.commentCreatedAt}</Time>
           </Grid>

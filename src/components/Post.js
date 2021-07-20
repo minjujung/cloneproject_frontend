@@ -19,7 +19,7 @@ import moment from "moment";
 import CommentList from "./CommentList";
 
 const Post = (props) => {
-  const { postId, userInfo, content, comment, like } = props;
+  const { postId, userInfo, content, comments, like } = props;
 
   return (
     <PostCard>
@@ -59,7 +59,7 @@ const Post = (props) => {
           />{" "}
           {like.likeCnt}
         </LikeBtn>
-        <CommentCnt>댓글 {comment.length}개</CommentCnt>
+        <CommentCnt>댓글 {comments.length}개</CommentCnt>
       </Grid>
       <Grid padding="0 1em">
         <Line />
@@ -87,7 +87,7 @@ const Post = (props) => {
         </Grid>
         <Line />
       </Grid>
-      <CommentList postId={postId} comment={comment} />
+      <CommentList postId={postId} comments={comments} />
     </PostCard>
   );
 };
