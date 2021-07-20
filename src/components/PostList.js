@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import IntroPost from "./IntroPost";
 
-import { useSelector } from "react-redux";
+import { actionCreators as postActions } from "../redux/modules/post";
+import { useDispatch, useSelector } from "react-redux";
 import Post from "./Post";
 
 const PostList = (props) => {
+  const dispatch = useDispatch();
   const list = useSelector((state) => state.post.list);
+
+  useEffect(() => {
+    dispatch(postActions.getPostDB());
+  }, []);
 
   return (
     <Container>
       <IntroPost />
-      {list.map((l) => (
+      {list?.map((l) => (
         <Post key={l.postId} {...l} />
       ))}
     </Container>

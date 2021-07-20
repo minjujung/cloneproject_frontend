@@ -44,6 +44,7 @@ export default function EditMenu(props) {
   };
 
   const deletePost = () => {
+    console.log(postId);
     dispatch(postActions.deletePostDB(postId));
     handleCloseMenu();
   };

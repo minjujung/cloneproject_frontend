@@ -14,6 +14,7 @@ const setComment = createAction(SET_COMMENT, (postId, comment_list) => ({
   postId,
   comment_list,
 }));
+
 const addComment = createAction(ADD_COMMENT, (postId, comment) => ({
   postId,
   comment,
@@ -33,27 +34,62 @@ const initialState = {
 
 const addCommentDB =
   (postId, content) =>
-  async (dispatch, getState, { history }) => {
+  (dispatch, getState, { history }) => {
     let comment = {
       commentText: content,
     };
-    await instance.post("/api/comments", comment).then((res) => {
+
+    instance.post("/api/comments", comment).then((res) => {
+      console.log(comment);
+      const post_idx = getState().post.list.findIndex(
+        (p) => p.postId === postId
+      );
+      const _post = getState().post.list[post_idx];
+      console.log(res);
       const user_info = getState().user.user;
+
       const new_comment = {
         ...comment,
         userInfo: {
-          firstName: user_info.firstName,
-          lastName: user_info.lasName,
-          profilePic: user_info.profilePic,
+          firstName: user_info?.firstName || "test@test.com",
+          lastName: user_info?.lasName || "test user name",
+          profilePic: user_info?.profilePic || "../../images/profile.jpg",
         },
       };
+      console.log(postId, new_comment);
       dispatch(addComment(postId, new_comment));
+
+      let comment_list = [];
+      comment_list.push(new_comment);
+
+      dispatch(
+        postActions.editPost(postId, { ..._post, comment: comment_list })
+      );
     });
   };
 
+const deleteCommentDB =
+  (commentId) =>
+  (dispatch, getState, { history }) => {
+    instance
+      .delete(`/api/comments/${commentId}`)
+      .then((res) => {
+        console.log(res);
+        dispatch(deleteComment(commentId));
+      })
+      .catch((error) => console.log(error));
+  };
+
+const editCommentDB =
+  (postId, comment) =>
+  (dispatch, getState, { history }) => {};
+
 export default handleActions(
   {
-    [SET_COMMENT]: (state, action) => produce(state, (draft) => {}),
+    [SET_COMMENT]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list[action.payload.postId] = action.payload.comment_list;
+      }),
     [ADD_COMMENT]: (state, action) =>
       produce(state, (draft) => {
         draft.list[action.payload.postId].unshift(action.payload.comment);
@@ -65,5 +101,7 @@ export default handleActions(
 );
 
 export const actionCreators = {
+  setComment,
   addCommentDB,
+  deleteCommentDB,
 };

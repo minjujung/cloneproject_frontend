@@ -1,4 +1,4 @@
-import React, { usetextInput, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import {
@@ -44,12 +44,13 @@ const EditPost = (props) => {
   const classes = useStyles();
   const [size, setSize] = useState(1.9);
   const [postText, setPostText] = useState("");
-  const textInput = useRef();
-  const imageInput = useRef();
+  const textInput = useRef(null);
+  const imageInput = useRef(null);
 
   useEffect(() => {
-    if (content.picture.length !== 0) {
-      dispatch(imageActions.setPreview(content.picture[0]));
+    if (content.picture) {
+      console.log(content.picture);
+      dispatch(imageActions.setPreview(content.picture));
       props.resizeModal(17);
     }
     setPostText(content.text);

@@ -1,14 +1,28 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styled from "styled-components";
 
-const Input = ({ placeholder, width }) => {
-  const style = { width };
-  return <InputBox type="text" placeholder={placeholder} {...style} />;
-};
-
+const Input = forwardRef(
+  ({ placeholder, width, value, _onChange, _onKeyPress }, ref) => {
+    const style = { width };
+    return (
+      <InputBox
+        value={value}
+        onChange={_onChange}
+        onKeyPress={_onKeyPress}
+        type="text"
+        placeholder={placeholder}
+        ref={ref}
+        {...style}
+      />
+    );
+  }
+);
 Input.defaultProps = {
   placeholder: null,
   width: null,
+  value: "",
+  _onChange: () => {},
+  _onKeyPress: () => {},
 };
 
 export default Input;
