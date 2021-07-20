@@ -5,11 +5,9 @@ import instance from "../../shared/api";
 
 
 const SET_USER = "SET_USER";
-const GET_USER = "GET_USER";
 const LOG_OUT = "LOG_OUT";
 
 const setUser = createAction(SET_USER, (user) => ({ user }));
-const getUser = createAction(GET_USER, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 
 const initialState = {
@@ -75,7 +73,6 @@ const loginDB = (email, pwd) => {
         .then((res) => {
             console.log(res.data.token) //201 에러 200 정상 (로그인 시)
             if(res.status===200){
-                console.log(res.data)
                 const name = res.data.userInfo.fullName
                 const profile_url = res.data.userInfo.profilePic
                 document.cookie = `MY_COOKIE=${res.data.token};`;
@@ -120,8 +117,6 @@ export default handleActions({
         draft.profile_url = action.payload.user.profile_url;
         draft.is_login = true;
         // draft.user_name = action.payload.user_name;
-    }),
-    [GET_USER]: (state, action) => produce(state, (draft) => {;
     }),
     [LOG_OUT]: (state, action) => produce(state, (draft) => {
         draft.email = null;

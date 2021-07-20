@@ -13,9 +13,7 @@ import x from "../images/x.png";
 import Tooltip from '@material-ui/core/Tooltip';
 import ModalVedio from "../components/ModalVideo";
 import Spinner from "../elements/Spinner";
-// import Spinner from "../elements/Spinner";
 
-// todo 중복확인, url, email, name, pw 전송
 const Login = (props) => {
   const [open, setOpen] = useState(false);
   // const [like, setLike] = useState(0);
@@ -62,10 +60,6 @@ const logout = () => {
     dispatch(UserActions.loginDB(emailL,pwdL));
   }
 
-  const loginCheck = () => {
-    dispatch(UserActions.loginCheckDB())
-  }
-
   // const like_plus = () => {
   //   if(!likeState){
   //     let _like = like+1
@@ -99,7 +93,6 @@ const logout = () => {
           <BackgroundC>
             <FacebookLogo>
         <button onClick={logout}>로그아웃</button>
-        <button onClick={loginCheck}>유저 정보 가져오기</button>
 
               <Image src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg" />
               <h2>
