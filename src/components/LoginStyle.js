@@ -180,6 +180,10 @@ export const InputFirstN = styled.input`
     background: #f5f6f7;
     border-radius: 5px;
     border: 1px solid #dddfe2;
+    :focus {
+      outline:red;
+      ${(props)=> props.signUpInfo.FirstName? "border: 1px solid #dddfe2": "border: 1px solid red" }
+    }
 `;
 
 export const InputSecondN = styled.input`
@@ -192,6 +196,13 @@ export const InputSecondN = styled.input`
     background: #f5f6f7;
     border-radius: 5px;
     border: 1px solid #dddfe2;
+    :focus {
+      outline:red;
+      ${(props)=> props.signUpInfo.Name? "border: 1px solid #dddfe2": "border: 1px solid red" }
+    }
+    /* border: 1px solid #dddfe2; */
+    
+
 `;
 
 export const InputEmail = styled.input`
@@ -204,6 +215,26 @@ export const InputEmail = styled.input`
     background: #f5f6f7;
     border-radius: 5px;
     border: 1px solid #dddfe2;
+    :focus {
+      outline:red;
+      ${(props)=> props.signUpInfo.email? "border: 1px solid #dddfe2": "border: 1px solid red" }
+    }
+`;
+
+export const InputPwd = styled.input`
+        width: 375px;
+      height: 10px;
+      padding: 11px;
+      margin: 5px 0px 10px 0px;
+    font-size: 15px;
+    line-height: 16px;
+    background: #f5f6f7;
+    border-radius: 5px;
+    border: 1px solid #dddfe2;
+    :focus {
+      outline:red;
+      ${(props)=> props.signUpInfo.pwd? "border: 1px solid #dddfe2": "border: 1px solid red" }
+    }
 `;
 
 export const TotalDiv = styled.div`

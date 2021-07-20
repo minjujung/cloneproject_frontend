@@ -4,7 +4,7 @@ import styled from "styled-components";
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import {Background, Div, BackgroundC, FacebookLogo, Image, LoginBox, Input, Button, Hr, P, SignUpB, SignUpT, Bottom, ButtonText,
-  H1,P2,DivM,DivMC,NameBox,InputFirstN,InputSecondN,InputEmail,DivPicture,ProfileImage,DivSubButton,SignUpBM,A} from "../components/LoginStyle";
+  H1,P2,DivM,DivMC,NameBox,InputFirstN,InputSecondN,InputEmail, InputPwd,DivPicture,ProfileImage,DivSubButton,SignUpBM,A} from "../components/LoginStyle";
 import { actionCreators as ProfileActions } from "../redux/modules/profile";
 import { actionCreators as LikeActions } from "../redux/modules/like";
 import { actionCreators as UserActions } from "../redux/modules/user";
@@ -13,13 +13,13 @@ import x from "../images/x.png";
 import Tooltip from '@material-ui/core/Tooltip';
 import ModalVedio from "../components/ModalVideo";
 import Spinner from "../elements/Spinner";
+import {emailCheck, pwdCheck} from "../shared/fromcheck";
 
 const Login = (props) => {
   const [open, setOpen] = useState(false);
   // const [like, setLike] = useState(0);
   // const payloadLike = useSelector((state) => state.like.like_cnt)
   // const [likeState, setLikeState] = useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -38,10 +38,9 @@ const Login = (props) => {
   const [Name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
-
+  const signupInfo = {FirstName, Name, email, pwd}
   const [emailL, setEmailL] = useState("");
   const [pwdL, setPwdL] = useState("");
-
   
   const selectFile = () => {
     let profile = profileInput.current.files[0];
@@ -53,10 +52,23 @@ const logout = () => {
 }
 
   const signUp = () => {
+    if(FirstName===""||Name===""||email===""||pwd===""){
+      window.alert("빈 칸을 채워주세요!")
+      return;
+    }
+    if(!emailCheck(email)){
+      window.alert("이메일 형식이 맞지 않습니다!")
+      return;
+    }
+    if(!pwdCheck(pwd)){
+      window.alert("비밀번호 형식이 맞지 않습니다!")
+      return;
+    }
     dispatch(UserActions.signUpDB(FirstName, Name, email, pwd, profile_url, handleClose));
   }
 
   const _logIn = () => {
+
     dispatch(UserActions.loginDB(emailL,pwdL));
   }
 
@@ -79,7 +91,6 @@ const logout = () => {
   //   dispatch(LikeActions.setLike(_like));
   //   }
   //   console.log(likeState);
-
   // }
 
   return (
@@ -132,17 +143,17 @@ const logout = () => {
               <DivMC>
                 <NameBox>
               <Tooltip title="이름이 무엇인가요?">
-                <InputFirstN onChange={(e) => {setFirst(e.target.value)}} placeholder={"성(性)"} onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}}/>
+                <InputFirstN signUpInfo={signupInfo} onChange={(e) => {setFirst(e.target.value)}} placeholder={"성(性)"} onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}}/>
                 </Tooltip>
                 <Tooltip title="이름이 무엇인가요?" arrow>
-                  <InputSecondN onChange={(e) => {setName(e.target.value)}} placeholder={"이름(성은 제외)"} onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}}/>
+                  <InputSecondN signUpInfo={signupInfo} onChange={(e) => {setName(e.target.value)}} placeholder={"이름(성은 제외)"} onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}}/>
                   </Tooltip>
                 </NameBox>
               <Tooltip title="로그인할 때와 비밀번호를 재설정해야할 때 사용하는 정보입니다." arrow>
-                <InputEmail onChange={(e) => {setEmail(e.target.value)}} placeholder={"이메일"} onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}}/>
+                <InputEmail signUpInfo={signupInfo} onChange={(e) => {setEmail(e.target.value)}} placeholder={"이메일"} onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}}/>
                 </Tooltip>
               <Tooltip title="숫자, 영문, 특수기호(!,& 등)를 조합한 여섯 자리 이상의 비밀번호를 입력하세요." arrow>
-                <InputEmail onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}} onChange={(e) => {setPwd(e.target.value)}} placeholder={"새 비밀번호"} type={"password"}/>
+                <InputPwd signUpInfo={signupInfo} onKeyPress={(e) => {if(e.key === 'Enter'){signUp()}}} onChange={(e) => {setPwd(e.target.value)}} placeholder={"새 비밀번호"} type={"password"}/>
                 </Tooltip>
                 <div>
                   {is_uploading?<Spinner/>:
