@@ -1,9 +1,11 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import { storage } from "../firebase";
+import { storage } from "../../shared/firebase";
 
 import profile from "../../images/profile.jpg";
 import { actionCreators as profileActions } from "./profile";
+import { actionCreators as commentActions } from "./comment";
+import instance from "../../shared/api";
 
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
@@ -21,56 +23,23 @@ const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 
 const initialState = {
-  list: [
-    {
-      postId: 0,
-      userInfo: {
-        userEmail: "test@test.com",
-        firstName: "test user name",
-        profile: { profile },
-      },
-      content: {
-        picture: [
-          "https://i.pinimg.com/564x/08/22/5f/08225f0dc79fc03bad5d89cdbd5d354d.jpg",
-        ],
-        text: "test text",
-        createdAt: "2021 07 13 08 47 13 pm",
-      },
-
-      comment: [
-        {
-          writerInfo: {
-            name: "댓글러",
-            profile: { profile },
-          },
-          commentId: 1,
-          commentText: "blah blah",
-          commentCreatedAt: " 1min ago",
-        },
-      ],
-
-      like: {
-        userList: [],
-        likeCnt: 0,
-      },
-    },
-  ],
+  list: [],
   is_loading: false,
 };
 
-const addPostDB = (text = "") => {
-  return function (dispatch, getState, { history }) {
+const addPostDB =
+  (text = "") =>
+  (dispatch, getState, { history }) => {
     // const _user = getState().user.user
     const userInfo = {
       userEmail: "test@test.com",
       firstName: "test user name",
-      profile: { profile },
+      profile: "",
     };
 
     const new_post = {
       content: {
         text,
-        picture: [],
       },
     };
 
@@ -84,34 +53,154 @@ const addPostDB = (text = "") => {
       _upload.then((snapshot) => {
         snapshot.ref.getDownloadURL().then((url) => {
           console.log(url);
-          let new_pictures = [];
-
-          new_pictures.push(url);
-
-          console.log(new_pictures);
-          let post = {
-            postId: new Date(),
-            content: { ...new_post.content, picture: new_pictures },
+          let _post = {
+            content: { ...new_post.content, picture: url },
           };
-          dispatch(addPost(post));
-          dispatch(profileActions.setPreview(null));
+          console.log(_post);
+          instance
+            .post("/api/posts", _post)
+            .then((res) => {
+              console.log(res);
+              _post = {
+                content: { ..._post.content },
+                postId: res.data.postId,
+              };
+              console.log(_post);
+              dispatch(addPost(_post));
+              dispatch(profileActions.setPreview(null));
+            })
+            .catch((error) => console.log(error));
+        });
+      });
+    } else {
+      instance
+        .post("/api/posts", new_post)
+        .then((res) => {
+          console.log(res);
+          dispatch(
+            addPost({
+              content: { ...new_post.content },
+              postId: res.data.postId,
+            })
+          );
+        })
+        .catch((error) => console.log(error));
+    }
+  };
+
+const deletePostDB =
+  (post_id) =>
+  (dispatch, getState, { history }) => {
+    console.log("before axios");
+    instance
+      .delete(`/api/posts/${post_id}`)
+      .then((res) => {
+        console.log(res);
+        dispatch(deletePost(post_id));
+      })
+      .catch((error) => console.log(error));
+  };
+
+const editPostDB = (postId = null, text = "") => {
+  return function (dispatch, getState, { history }) {
+    if (!postId) {
+      console.log(postId);
+      console.log("게시물 정보가 없습니다ㅜㅜ");
+      return;
+    }
+    const post_idx = getState().post.list.findIndex((p) => p.postId === postId);
+    const _post = getState().post.list[post_idx];
+
+    let new_post = {
+      ..._post,
+      content: { ..._post.content, text },
+    };
+
+    const _image = getState().profile.preview;
+
+    // 수정할때 텍스트만 남기고 사진은 지울 때
+    if (!_image) {
+      new_post = {
+        ..._post,
+        content: {
+          ..._post.content,
+          text,
+          picture: "",
+        },
+      };
+
+      instance
+        .put(`/api/posts/${postId}`, new_post)
+        .then((res) => {
+          console.log(res);
+          dispatch(editPost(postId, { ...new_post }));
+        })
+        .catch((error) => console.log(error));
+    }
+
+    // 수정하기 전과 사진은 똑같고 text만 바뀔 때
+    else if (_image === _post.content.picture) {
+      instance
+        .put(`/api/posts/${postId}`, new_post)
+        .then((res) => {
+          console.log(res);
+          console.log(postId);
+          dispatch(editPost(postId, { ...new_post }));
+        })
+        .catch((error) => console.log(error));
+    } else {
+      // 수정하기 전과 사진 text 모두 다를 때
+
+      // const _user = getState().user.user
+      const userInfo = {
+        userEmail: "test@test.com",
+        firstName: "test user name",
+        profile: { profile },
+      };
+
+      const _upload = storage
+        .ref(`images/${userInfo.userEmail}_${new Date().getTime()}`)
+        .putString(_image, "data_url");
+
+      _upload.then((snapshot) => {
+        snapshot.ref.getDownloadURL().then((url) => {
+          let post = {
+            ...new_post,
+            content: { ...new_post.content, picture: url },
+          };
+
+          instance
+            .put(`/api/posts/${postId}`, post)
+            .then((res) => {
+              console.log(res);
+              dispatch(editPost(postId, post));
+              dispatch(profileActions.setPreview(null));
+            })
+            .catch((error) => console.log(error));
         });
       });
     }
-    console.log("noImage");
-    dispatch(addPost({ ...new_post, postId: new Date() }));
+    dispatch(profileActions.setPreview(null));
   };
 };
 
-const deletePostDB = (post_id) => {
-  return function (dispatch, getState, { history }) {
-    dispatch(deletePost(post_id));
+const getPostDB =
+  () =>
+  (dispatch, getState, { history }) => {
+    console.log("before axios");
+    instance
+      .get("/api/posts")
+      .then((res) => {
+        console.log(res);
+        dispatch(setPost(res.data));
+        // const post_id = res.data.list.postId;
+        // const comment = res.data.list.comment;
+        // dispatch(commentActions.setComment(post_id, comment));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-};
-
-const getPostDB = (post_list) => {
-  return function (dispatch, getState, { history }) {};
-};
 
 export default handleActions(
   {
@@ -123,7 +212,13 @@ export default handleActions(
       produce(state, (draft) => {
         draft.list.unshift(action.payload.post);
       }),
-    [EDIT_POST]: (state, action) => produce(state, (draft) => {}),
+    [EDIT_POST]: (state, action) =>
+      produce(state, (draft) => {
+        let idx = draft.list.findIndex(
+          (l) => l.postId === action.payload.post_id
+        );
+        draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
+      }),
     [DELETE_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.list = draft.list.filter(
@@ -142,6 +237,8 @@ const actionCreators = {
   deletePost,
   addPostDB,
   deletePostDB,
+  editPostDB,
+  getPostDB,
 };
 
 export { actionCreators };

@@ -1,4 +1,4 @@
-import React, { usetextInput, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import {
@@ -44,6 +44,10 @@ const CreatePost = (props) => {
   const [postText, setPostText] = useState("");
   const textInput = useRef();
   const imageInput = useRef();
+
+  useEffect(() => {
+    dispatch(imageActions.setPreview(null));
+  }, []);
 
   const sizeSmaller = (event) => {
     if (event.target.scrollHeight > 152) {
@@ -98,6 +102,7 @@ const CreatePost = (props) => {
   const addOnePost = () => {
     dispatch(postActions.addPostDB(postText));
     props.handleClose();
+    props.resizeModal(10.5);
   };
 
   return (
@@ -281,7 +286,7 @@ const ShowOption = styled.div`
 
 const WriteField = styled.div`
   height: 100%;
-  max-height: 17em;
+  max-height: 16em;
   margin-bottom: 1em;
   overflow-y: scroll;
   ::-webkit-scrollbar {

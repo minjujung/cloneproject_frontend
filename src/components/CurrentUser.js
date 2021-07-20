@@ -27,9 +27,8 @@ const CurrentUser = (props) => {
       <Users line padding="4.5em 0 0.6em 0" margin="0">
         <Title>연락처</Title>
         {users_length.map((user, idx) => (
-          <User>
+          <User key={idx}>
             <Badge
-              key={idx}
               overlap="circular"
               badgeContent=" "
               variant="dot"

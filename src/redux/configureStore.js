@@ -7,6 +7,7 @@ import Profile from "./modules/profile";
 import User from "./modules/user";
 import Post from "./modules/post";
 import Like from "./modules/like";
+import Comment from "./modules/comment";
 
 export const history = createBrowserHistory();
 
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   user: User,
   profile: Profile,
   like: Like,
+  comment: Comment,
   router: connectRouter(history),
 });
 

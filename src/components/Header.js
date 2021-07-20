@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
-import logo from "../images/logo.png";
+import fakebook from "../images/fakebook.png";
 import messanger from "../images/messanger.png";
 import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
 import OndemandVideoIcon from "@material-ui/icons/OndemandVideo";
@@ -21,7 +21,7 @@ const Header = (props) => {
     <>
       <HeaderStyle>
         <Logo
-          src={logo}
+          src={fakebook}
           alt="facebook"
           onClick={() => {
             window.location.reload();
@@ -103,8 +103,8 @@ const HeaderStyle = styled.header`
 `;
 
 const Logo = styled.img`
-  width: 2.8em;
-  height: 2.8em;
+  width: 2.5em;
+  height: 2.5em;
   position: fixed;
   top: 0.35em;
   left: 1em;
@@ -113,10 +113,10 @@ const Logo = styled.img`
 
 const SearchBtn = styled.button`
   border: none;
-  width: 15em;
+  width: 16em;
   font-size: 14px;
   padding: 0.7em;
-  margin-left: 5em;
+  margin-left: 4.5em;
   border-radius: 30px;
   background-color: #f0f2f5;
   color: #606266;

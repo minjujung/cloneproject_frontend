@@ -6,9 +6,9 @@ const SET_USER = "SET_USER";
 const GET_USER = "GET_USER";
 const LOG_OUT = "LOG_OUT";
 
-const setUser = createAction(SET_USER, (user) => ({user}));
-const getUser = createAction(GET_USER, (user) => ({user}));
-const logOut = createAction(LOG_OUT, (user) => ({user}))
+const setUser = createAction(SET_USER, (user) => ({ user }));
+const getUser = createAction(GET_USER, (user) => ({ user }));
+const logOut = createAction(LOG_OUT, (user) => ({ user }));
 
 const initialState = {
     user_name: '',
@@ -111,8 +111,10 @@ export default handleActions({
         draft.user_name = null;
         draft.profile_url = null;
         draft.is_login = false;
-    }),
-}, initialState);
+      }),
+  },
+  initialState
+);
 
 const actionCreators = {
     signUpDB,
@@ -121,4 +123,4 @@ const actionCreators = {
     _logOut,
 }
 
-export {actionCreators};
+export { actionCreators };
