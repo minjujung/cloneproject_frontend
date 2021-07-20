@@ -142,6 +142,7 @@ export const P = styled.p`
 
 export const H1 = styled.h1`
   margin-bottom: -5px;
+  margin-top: 15px;
 `;
 
 export const P2 = styled.p`

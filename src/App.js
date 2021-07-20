@@ -4,8 +4,12 @@ import { ConnectedRouter } from "connected-react-router";
 import { history } from "./redux/configureStore";
 import Main from "./pages/Main";
 import Login from "./pages/Login";
+import { useDispatch } from "react-redux";
+import React from "react";
+import { actionCreators as userActions } from "./redux/modules/user";
 
 function App() {
+  
   return (
     <div className="App">
       <ConnectedRouter history={history}>

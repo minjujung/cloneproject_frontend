@@ -6,6 +6,7 @@ import { connectRouter } from "connected-react-router";
 import Profile from "./modules/profile";
 import User from "./modules/user";
 import Post from "./modules/post";
+import Like from "./modules/like";
 
 export const history = createBrowserHistory();
 
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   post: Post,
   user: User,
   profile: Profile,
+  like: Like,
   router: connectRouter(history),
 });
 
