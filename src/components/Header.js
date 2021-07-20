@@ -12,17 +12,23 @@ import {
   NotificationsRounded,
   ArrowDropDownRounded,
   SearchRounded,
+  DirectionsRun,
 } from "@material-ui/icons";
 
 import profile from "../images/profile.jpg";
 import Grid from "../elements/Grid";
 import Profile from "../elements/Profile";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
 
 const Header = (props) => {
+  const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user);
-  console.log(userInfo);
+
+  const logout = () => {
+    dispatch(userActions._logOut());
+  };
 
   return (
     <>
@@ -72,9 +78,10 @@ const Header = (props) => {
             <NotificationsRounded />
           </Button>
           <Button>
-            <ArrowDropDownRounded
+            <DirectionsRun
+              onClick={logout}
               style={{
-                fontSize: "35px",
+                fontSize: "1.8em",
               }}
             />
           </Button>

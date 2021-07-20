@@ -46,7 +46,7 @@ const CommentList = ({ comments, postId }) => {
           <Grid>
             <Grid is_flex>
               <CommentBox>
-                <Commenter>{c.userName}</Commenter>
+                <Commenter>{c.user_name}</Commenter>
                 <Comment>{c.commentText}</Comment>
               </CommentBox>
               <CommentMenu cmtId={c.commentId} postId={postId} />
