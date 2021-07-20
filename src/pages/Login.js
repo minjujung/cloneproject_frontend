@@ -153,6 +153,12 @@ const Login = (props) => {
                 onChange={(e) => {
                   setPwdL(e.target.value);
                 }}
+                // onKeyPress={}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    _logIn();
+                  }
+                }}
                 placeholder={"비밀번호"}
                 type={"password"}
               ></Input>
@@ -189,11 +195,7 @@ const Login = (props) => {
                             setFirst(e.target.value);
                           }}
                           placeholder={"성(性)"}
-                          onKeyPress={(e) => {
-                            if (e.key === "Enter") {
-                              signUp();
-                            }
-                          }}
+
                         />
                       </Tooltip>
                       <Tooltip title="이름이 무엇인가요?" arrow>
