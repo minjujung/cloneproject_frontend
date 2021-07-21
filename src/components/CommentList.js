@@ -36,13 +36,14 @@ const CommentList = ({ comments, postId }) => {
   const editCmt = (e) => {
     if (e.key === "Enter") {
       dispatch(commentActions.editCommentDB(postId, cmtId, editText));
-      setCmtId("");
+
+      setTimeout(() => setCmtId(""), 500);
     }
   };
 
   return (
     <>
-      <Grid is_flex padding="1em 1em 0.2em 1em">
+      <Grid is_flex padding="1em 1em 0.3em 1em">
         <Profile
           src={userInfo.profile_url ? userInfo.profile_url : profile}
           margin="0 0.5em 0 0"
@@ -52,12 +53,13 @@ const CommentList = ({ comments, postId }) => {
           placeholder="댓글을 입력하세요..."
           _onChange={writeCmt}
           _onKeyPress={addCmt}
+          icons
         />
       </Grid>
       {comments.map((c) => (
-        <Grid is_flex padding="0.2em 1em" key={c.commentId}>
+        <Grid is_flex padding="0.6em 1em" key={c.commentId}>
           <Profile
-            src={c.profilePic}
+            src={c.profilePic ? c.profilePic : profile}
             margin="0 0.5em 0 0"
             alignSelf="flex-start"
           />
@@ -66,13 +68,21 @@ const CommentList = ({ comments, postId }) => {
               {cmtId === c.commentId ? (
                 <Grid relative>
                   <Input
-                    width="33em"
+                    width="32.85em"
                     placeholder={c.commentText}
                     value={editText}
                     _onChange={(e) => setEditText(e.target.value)}
                     _onKeyPress={editCmt}
+                    icons
                   />
-                  <Button onClick={() => setCmtId("")}>취소</Button>
+                  <Button onClick={() => setCmtId("")}>
+                    <span
+                      style={{ color: "#5a5ad9", textDecoration: "underline" }}
+                    >
+                      취소
+                    </span>
+                    <Explain>Enter를 눌리면 수정이 됩니다 :)</Explain>
+                  </Button>
                 </Grid>
               ) : (
                 <>
@@ -96,14 +106,13 @@ const CommentList = ({ comments, postId }) => {
     </>
   );
 };
-
 export default CommentList;
 
 const CommentBox = styled.div`
   background-color: #f0f2f5;
   border-radius: 1.3em;
   box-sizing: border-box;
-  padding: 0.5em 0.7em;
+  padding: 0.6em 0.7em;
 `;
 
 const Commenter = styled.p`
@@ -128,9 +137,14 @@ const Time = styled.p`
 const Button = styled.button`
   background-color: transparent;
   border: none;
-  font-size: 0.8em;
+  font-size: 0.7em;
   position: absolute;
   left: 0;
   bottom: -1.4em;
   padding: 0 0.2em;
+`;
+
+const Explain = styled.span`
+  font-size: 0.7em;
+  margin-left: 1em;
 `;
