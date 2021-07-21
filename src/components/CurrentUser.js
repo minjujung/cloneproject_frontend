@@ -8,6 +8,7 @@ import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core/styles";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
+import Modal from "./Modal";
 
 const styles = (theme) => ({
   customBadge: {
@@ -28,7 +29,20 @@ const CurrentUser = (props) => {
       <Users line padding="4.5em 0 0.6em 0" margin="0">
         <Title>연락처</Title>
         {users_length.map((user, idx) => (
-          <User key={idx}>
+          <User key={idx} onClick>
+            {/* <Modal
+              open={open}
+              handleClickOpen={handleClickOpen}
+              handleClose={handleClose}
+              width="32em"
+              height={`${height}em`}
+              padding="0"
+              btn={
+               
+              }
+            >
+          */}
+            {/* </Modal> */}
             <Badge
               overlap="circular"
               badgeContent=" "

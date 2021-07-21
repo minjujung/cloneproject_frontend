@@ -65,7 +65,7 @@ const Header = (props) => {
               src={userInfo.profile_url ? userInfo.profile_url : profile}
               margin="0 0.5em 0 0"
             />
-            {userInfo.user_name}
+            {userInfo.firstName + userInfo.lastName}
           </User>
           <Button>
             <AppsRounded />

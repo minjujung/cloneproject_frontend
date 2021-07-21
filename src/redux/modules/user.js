@@ -10,9 +10,11 @@ const setUser = createAction(SET_USER, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 
 const initialState = {
-  user_name: "",
+  firstName: "",
+  lastName: "",
   email: "",
   profile_url: "",
+  userId: "",
   is_login: false,
 };
 
@@ -24,7 +26,6 @@ const signUpDB = (
   profile_url,
   handleClose
 ) => {
-  console.log(firstName, lastName, email, pwd, profile_url);
   return function (dispatch, getState, { history }) {
     axios({
       method: "post",
@@ -64,12 +65,14 @@ const loginDB = (email, pwd) => {
       },
     })
       .then((res) => {
+        console.log(res);
         console.log(res.data.token); //201 에러 200 정상 (로그인 시)
         if (res.status === 200) {
-          const name = res.data.userInfo.fullName;
+          const firstName = res.data.userInfo.fistName;
+          const lastName = res.data.userInfo.lastName;
           const profile_url = res.data.userInfo.profilePic;
           document.cookie = `MY_COOKIE=${res.data.token};`;
-          dispatch(setUser({ email, name, profile_url }));
+          dispatch(setUser({ email, firstName, lastName, profile_url }));
           history.push("/");
         }
       })
@@ -96,10 +99,12 @@ const loginCheckDB = () => {
       .get(`/api/me`)
       .then((res) => {
         console.log(res.data.userInfo);
+        const firstName = res.data.userInfo.firstName;
+        const lastName = res.data.userInfo.lastName;
+        const userId = res.data.userInfo.userId;
         const email = res.data.userInfo.email;
-        const name = res.data.userInfo.firstName + res.data.userInfo.lastName;
         const profile_url = res.data.userInfo.profilePic;
-        dispatch(setUser({ email, name, profile_url }));
+        dispatch(setUser({ userId, email, firstName, lastName, profile_url }));
       })
       .catch((error) => console.log(error));
   };
@@ -109,8 +114,10 @@ export default handleActions(
   {
     [SET_USER]: (state, action) =>
       produce(state, (draft) => {
+        draft.userId = action.payload.user.userId;
         draft.email = action.payload.user.email;
-        draft.user_name = action.payload.user.name;
+        draft.firstName = action.payload.user.firstName;
+        draft.lastName = action.payload.user.lastName;
         draft.profile_url = action.payload.user.profile_url;
         draft.is_login = true;
         // draft.user_name = action.payload.user_name;

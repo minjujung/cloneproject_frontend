@@ -24,7 +24,7 @@ const PostList = (props) => {
       <ModalVedio x={"df"}/>
       <IntroPost />
       {list?.map((l) => (
-        <Post key={l.postId} {...l} />
+        <Post key={l._id} {...l} />
       ))}
     </Container>
   );

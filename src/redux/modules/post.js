@@ -30,17 +30,24 @@ const initialState = {
 const addPostDB =
   (text = "") =>
   (dispatch, getState, { history }) => {
-    // const _user = getState().user.user
+    const user_info = getState().user;
+
     const userInfo = {
-      userEmail: "test@test.com",
-      firstName: "test user name",
-      profile: "",
+      firstName: user_info.firstName,
+      lastName: user_info.lastName,
+      profilePic: user_info.profile_url,
     };
 
     const new_post = {
+      userInfo: { ...userInfo },
       content: {
         text,
       },
+      like: {
+        userList: [],
+        likeCnt: 0,
+      },
+      comments: [],
     };
 
     const _image = getState().profile.preview;
@@ -54,6 +61,7 @@ const addPostDB =
         snapshot.ref.getDownloadURL().then((url) => {
           console.log(url);
           let _post = {
+            ...new_post,
             content: { ...new_post.content, picture: url },
           };
           console.log(_post);
@@ -62,8 +70,9 @@ const addPostDB =
             .then((res) => {
               console.log(res);
               _post = {
+                ...new_post,
                 content: { ..._post.content },
-                postId: res.data.postId,
+                _id: res.data._id,
               };
               console.log(_post);
               dispatch(addPost(_post));
@@ -79,8 +88,8 @@ const addPostDB =
           console.log(res);
           dispatch(
             addPost({
-              content: { ...new_post.content },
-              postId: res.data.postId,
+              ...new_post,
+              _id: res.data._id,
             })
           );
         })
@@ -108,7 +117,7 @@ const editPostDB = (postId = null, text = "") => {
       console.log("게시물 정보가 없습니다ㅜㅜ");
       return;
     }
-    const post_idx = getState().post.list.findIndex((p) => p.postId === postId);
+    const post_idx = getState().post.list.findIndex((p) => p._id === postId);
     const _post = getState().post.list[post_idx];
 
     let new_post = {
@@ -150,16 +159,9 @@ const editPostDB = (postId = null, text = "") => {
         .catch((error) => console.log(error));
     } else {
       // 수정하기 전과 사진 text 모두 다를 때
-
-      // const _user = getState().user.user
-      const userInfo = {
-        userEmail: "test@test.com",
-        firstName: "test user name",
-        profile: { profile },
-      };
-
+      const userInfo = getState().user;
       const _upload = storage
-        .ref(`images/${userInfo.userEmail}_${new Date().getTime()}`)
+        .ref(`images/${userInfo.email}_${new Date().getTime()}`)
         .putString(_image, "data_url");
 
       _upload.then((snapshot) => {
@@ -211,16 +213,12 @@ export default handleActions(
       }),
     [EDIT_POST]: (state, action) =>
       produce(state, (draft) => {
-        let idx = draft.list.findIndex(
-          (l) => l.postId === action.payload.post_id
-        );
+        let idx = draft.list.findIndex((l) => l._id === action.payload.post_id);
         draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
       }),
     [DELETE_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.list = draft.list.filter(
-          (l) => l.postId !== action.payload.post_id
-        );
+        draft.list = draft.list.filter((l) => l._id !== action.payload.post_id);
       }),
     [LOADING]: (state, action) => produce(state, (draft) => {}),
   },
