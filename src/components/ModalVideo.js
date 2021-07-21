@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import styled from "styled-components";
-import Spinner from "../elements/Spinner";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -36,21 +35,51 @@ export default function SimpleModal(props) {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
+  const [openNum, setNum] = React.useState(0);
 
 const handleOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
+const openVedio1 = () => {
+  setOpen(true);
+  setNum(1);
+}
+const openVedio2 = () => {
+  setOpen(true);
+  setNum(2);
+}
+const openVedio3 = () => {
+  setOpen(true);
+  setNum(3);
+}
+const openVedio4 = () => {
+  setOpen(true);
+  setNum(4);
+}
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
 
-        <video controls width="300px">
-<source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-19-17-37-52.mp41626684611126?alt=media&token=613224f5-a061-44ba-b71b-354df3fe694f"
+  <video controls width="300px">
+{openNum===1?
+  <source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-21.mp41626851890422?alt=media&token=22e5df62-3a12-48ca-a2d7-a112a8ef7940"
         type="video/webm"/>
+:<div></div>}
+{openNum===2?
+  <source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-15.mp41626851678200?alt=media&token=9c2ad581-7197-4bb3-bbff-be181051982a"
+        type="video/webm"/>
+:<div></div>}
+{openNum===3?
+  <source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-10-24.mp41626851432687?alt=media&token=7a9b6f73-0867-45f4-99ff-980e2d3c0359"
+        type="video/webm"/>
+:<div></div>}
+{openNum===4?
+  <source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-28-15.mp41626852512947?alt=media&token=e13c9c48-c197-4a61-b317-5f3049312bb1"
+        type="video/webm"/>
+:<div></div>}
 </video>
 
     </div>
@@ -59,10 +88,10 @@ const handleOpen = () => {
   return (
     <div>
         <VideoContainer>
-      {/* <Spinner/> */}
-{/* <Video onClick={handleOpen} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-19-17-37-52.mp41626684611126?alt=media&token=613224f5-a061-44ba-b71b-354df3fe694f"></Video> */}
-{/* <Video onClick={handleOpen} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-19-19-30-46.mp41626690661531?alt=media&token=527f5c99-2ecb-43b0-b57c-8b05a2d4cb27"></Video> */}
-<Video  onClick={handleOpen} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-19-19-38-08.mp41626691096987?alt=media&token=3ffdfde3-56fc-4f28-b61e-d8e213b7b891"></Video>
+<Video onClick={openVedio1} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-21.mp41626851890422?alt=media&token=22e5df62-3a12-48ca-a2d7-a112a8ef7940"></Video>
+<Video onClick={openVedio2} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-15.mp41626851678200?alt=media&token=9c2ad581-7197-4bb3-bbff-be181051982a"></Video>
+<Video onClick={openVedio3} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-10-24.mp41626851432687?alt=media&token=7a9b6f73-0867-45f4-99ff-980e2d3c0359"></Video>
+<Video onClick={openVedio4} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-28-15.mp41626852512947?alt=media&token=e13c9c48-c197-4a61-b317-5f3049312bb1"></Video>
 </VideoContainer>
       <Modal
         open={open}
