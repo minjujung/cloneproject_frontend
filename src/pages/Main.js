@@ -17,7 +17,7 @@ const Main = (props) => {
 
   const is_token = document.cookie.split("=")[1];
 
-  if (is_token === "") {
+  if (is_token===undefined) {
     history.replace("/login");
   }
   return (
