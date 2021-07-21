@@ -28,7 +28,7 @@ const SideMenus = (props) => {
           <Profile
             src={userInfo.profile_url ? userInfo.profile_url : profile}
           />
-          <Name bold>{userInfo.user_name}</Name>
+          <Name bold>{userInfo.firstName + userInfo.lastName}</Name>
         </User>
         <User>
           <LocalHospital style={{ color: "purple", fontSize: "2.2em" }} />

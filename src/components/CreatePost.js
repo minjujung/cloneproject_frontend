@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CreatePost = (props) => {
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.user);
   const previewImage = useSelector((state) => state.profile.preview);
 
   const classes = useStyles();
@@ -116,9 +117,12 @@ const CreatePost = (props) => {
           />
         </Button>
         <Grid is_flex padding="1em">
-          <Profile src={profile} alt="profile" />
+          <Profile
+            src={userInfo.profile_url ? userInfo.profile_url : profile}
+            alt="profile"
+          />
           <Grid>
-            <Name>{props.userInfo.firstName}</Name>
+            <Name>{userInfo.firstName + userInfo.lastName}</Name>
             <ShowOption>
               <LockRounded style={{ fontSize: "1em", marginRight: "0.3em" }} />
               <span>나만보기</span>
@@ -136,7 +140,9 @@ const CreatePost = (props) => {
               onClick={sizeSmaller}
               onChange={sizeBigger}
               onInput={resize}
-              placeholder={`${props.userInfo.firstName}님, 무슨 생각을 하고 계신가요?`}
+              placeholder={`${
+                userInfo.firstName + userInfo.lastName
+              }님, 무슨 생각을 하고 계신가요?`}
             />
             {previewImage ? (
               <>
