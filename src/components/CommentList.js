@@ -36,8 +36,8 @@ const CommentList = ({ comments, postId }) => {
   const editCmt = (e) => {
     if (e.key === "Enter") {
       dispatch(commentActions.editCommentDB(postId, cmtId, editText));
-
       setTimeout(() => setCmtId(""), 500);
+      setTimeout(() => setEditText(""), 550);
     }
   };
 
@@ -57,7 +57,7 @@ const CommentList = ({ comments, postId }) => {
         />
       </Grid>
       {comments.map((c) => (
-        <Grid is_flex padding="0.6em 1em" key={c.commentId}>
+        <Grid is_flex padding="0.6em 1em" key={c._id}>
           <Profile
             src={c.profilePic ? c.profilePic : profile}
             margin="0 0.5em 0 0"
@@ -65,7 +65,7 @@ const CommentList = ({ comments, postId }) => {
           />
           <Grid>
             <Grid is_flex>
-              {cmtId === c.commentId ? (
+              {cmtId === c._id ? (
                 <Grid relative>
                   <Input
                     width="32.85em"
@@ -87,11 +87,13 @@ const CommentList = ({ comments, postId }) => {
               ) : (
                 <>
                   <CommentBox>
-                    <Commenter>{c.userName}</Commenter>
+                    <Commenter>
+                      {c.userName ? c.userName : c.firstName + c.lastName}
+                    </Commenter>
                     <Comment>{c.commentText}</Comment>
                   </CommentBox>
                   <CommentMenu
-                    cmtId={c.commentId}
+                    cmtId={c._id}
                     postId={postId}
                     cmtText={cmtText}
                     selectCmt={selectCmt}

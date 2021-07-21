@@ -64,6 +64,7 @@ const addCommentDB =
       const user_info = getState().user;
 
       const _comment = {
+        _id: res.data.commentId,
         commentId: res.data.commentId,
         commentText: comment,
         userName: user_info.user_name,
@@ -90,7 +91,7 @@ const deleteCommentDB =
         const _post = post_list[post_idx];
 
         const cmt_idx = _post.comments.findIndex(
-          (cmt) => cmt.commentId === commentId
+          (cmt) => cmt._id === commentId
         );
 
         const new_list = _post.comments.filter((cmt, idx) => idx !== cmt_idx);
@@ -114,7 +115,7 @@ const editCommentDB =
         const _post = post_list[post_idx];
 
         const cmt_idx = _post.comments.findIndex(
-          (cmt) => cmt.commentId === commentId
+          (cmt) => cmt._id === commentId
         );
 
         const new_list = _post.comments.map((cmt, idx) =>
