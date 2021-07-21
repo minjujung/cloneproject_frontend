@@ -1,12 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const PostCard = ({ children }) => {
-  return <Card>{children}</Card>;
+const PostCard = ({ children, padding }) => {
+  const style = { padding };
+  return <Card {...style}>{children}</Card>;
 };
 
 PostCard.defaultProps = {
   children: null,
+  padding: false,
 };
 
 export default PostCard;
@@ -14,6 +16,8 @@ export default PostCard;
 const Card = styled.div`
   width: 35em;
   height: auto;
+  box-sizing: border-box;
+  ${(props) => (props.padding ? `padding: ${props.padding};` : null)}
   margin-bottom: 1em;
   background-color: white;
   border-radius: 7px;

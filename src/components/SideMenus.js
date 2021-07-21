@@ -17,13 +17,18 @@ import {
 import profile from "../images/profile.jpg";
 import Profile from "../elements/Profile";
 
+import { useSelector } from "react-redux";
+
 const SideMenus = (props) => {
+  const userInfo = useSelector((state) => state.user);
   return (
     <Container>
       <Users line padding="4.5em 0 0.6em 0" margin="0 0 0 0.8em">
         <User>
-          <Profile src={profile} />
-          <Name>{props.userInfo.firstName}</Name>
+          <Profile
+            src={userInfo.profile_url ? userInfo.profile_url : profile}
+          />
+          <Name bold>{userInfo.user_name}</Name>
         </User>
         <User>
           <LocalHospital style={{ color: "purple", fontSize: "2.2em" }} />
@@ -123,6 +128,7 @@ const User = styled.li`
 
 const Name = styled.p`
   margin: 0 0 0 0.7em;
+  ${(props) => (props.bold ? "font-weight: 600" : null)}
 `;
 
 const Button = styled.button`

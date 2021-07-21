@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import Menu from "@material-ui/core/Menu";
@@ -40,9 +40,11 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-export default function CommentMenu({ cmtId, postId }) {
+export default function CommentMenu({ cmtId, postId, cmtText, selectCmt }) {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [editText, setEditText] = useState("");
+  const [editField, setEditField] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -52,7 +54,11 @@ export default function CommentMenu({ cmtId, postId }) {
     setAnchorEl(null);
   };
 
-  const updateCmt = () => {};
+  const updateCmt = () => {
+    setAnchorEl(null);
+    selectCmt(cmtId);
+    setEditField(true);
+  };
 
   const deleteCmt = () => {
     dispatch(commentActions.deleteCommentDB(cmtId, postId));

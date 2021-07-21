@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import {
@@ -21,8 +21,16 @@ import CommentList from "./CommentList";
 const Post = (props) => {
   const { postId, userInfo, content, comments, like } = props;
 
+  const [showCmt, setShowCmt] = useState(false);
+
+  const clickLike = () => {};
+
+  const openCmt = () => {
+    setShowCmt(true);
+  };
+
   return (
-    <PostCard>
+    <PostCard padding="0 0 1em 0">
       <Grid padding="1em 1em 0 1em">
         <Grid is_flex space_between>
           <p style={{ margin: "0", textAlign: "left" }}>
@@ -65,13 +73,13 @@ const Post = (props) => {
         <Line />
         <Grid is_flex>
           <BtnContainer>
-            <MenuButton>
+            <MenuButton onClick={clickLike}>
               <ThumbUpAltOutlined
                 style={{ fontSize: "1.5em", marginRight: "0.5em" }}
               />{" "}
               좋아요
             </MenuButton>
-            <MenuButton>
+            <MenuButton onClick={openCmt}>
               <ChatBubbleOutlineRounded
                 style={{ fontSize: "1.5em", marginRight: "0.5em" }}
               />{" "}
@@ -87,7 +95,7 @@ const Post = (props) => {
         </Grid>
         <Line />
       </Grid>
-      <CommentList postId={postId} comments={comments} />
+      {showCmt ? <CommentList postId={postId} comments={comments} /> : null}
     </PostCard>
   );
 };
