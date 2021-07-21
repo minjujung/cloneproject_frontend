@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import profile from "../images/profile.jpg";
@@ -9,6 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import Modal from "./Modal";
+import Chat from "./Chat";
 
 const styles = (theme) => ({
   customBadge: {
@@ -29,20 +30,7 @@ const CurrentUser = (props) => {
       <Users line padding="4.5em 0 0.6em 0" margin="0">
         <Title>연락처</Title>
         {users_length.map((user, idx) => (
-          <User key={idx} onClick>
-            {/* <Modal
-              open={open}
-              handleClickOpen={handleClickOpen}
-              handleClose={handleClose}
-              width="32em"
-              height={`${height}em`}
-              padding="0"
-              btn={
-               
-              }
-            >
-          */}
-            {/* </Modal> */}
+          <User key={idx}>
             <Badge
               overlap="circular"
               badgeContent=" "
@@ -59,6 +47,7 @@ const CurrentUser = (props) => {
           </User>
         ))}
       </Users>
+      <Chat />
       <Users padding="1em 0 0em 0">
         <Title>그룹대화</Title>
         <User>

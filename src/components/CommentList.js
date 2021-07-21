@@ -41,6 +41,8 @@ const CommentList = ({ comments, postId }) => {
     }
   };
 
+  console.log();
+
   return (
     <>
       <Grid is_flex padding="1em 1em 0.3em 1em">
@@ -92,12 +94,14 @@ const CommentList = ({ comments, postId }) => {
                     </Commenter>
                     <Comment>{c.commentText}</Comment>
                   </CommentBox>
-                  <CommentMenu
-                    cmtId={c._id}
-                    postId={postId}
-                    cmtText={cmtText}
-                    selectCmt={selectCmt}
-                  />
+                  {userInfo.userId === parseInt(c.userId) ? (
+                    <CommentMenu
+                      cmtId={c._id}
+                      postId={postId}
+                      cmtText={cmtText}
+                      selectCmt={selectCmt}
+                    />
+                  ) : null}
                 </>
               )}
             </Grid>

@@ -33,8 +33,9 @@ const Post = (props) => {
     const like_check = like.userList.filter(
       (user) => user.userId === user_info.userId
     );
+    console.log(like_check);
     if (like_check.length !== 0) {
-      setIsLike(true);
+      return setIsLike(true);
     }
   }, []);
 
@@ -54,7 +55,9 @@ const Post = (props) => {
           <p style={{ margin: "0", textAlign: "left" }}>
             땡땡님이 댓글을 남겼습니다.
           </p>
-          <EditMenu {...props} />
+          {user_info.userId === parseInt(userInfo.userId) ? (
+            <EditMenu {...props} />
+          ) : null}
         </Grid>
         <Line />
       </Grid>
