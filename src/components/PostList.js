@@ -7,6 +7,10 @@ import { actionCreators as postActions } from "../redux/modules/post";
 import { useDispatch, useSelector } from "react-redux";
 import Post from "./Post";
 
+import ModalVedio from "../components/ModalVideo";
+import x from "../images/x.png";
+
+
 const PostList = (props) => {
   const dispatch = useDispatch();
   const list = useSelector((state) => state.post.list);
@@ -17,6 +21,7 @@ const PostList = (props) => {
 
   return (
     <Container>
+      <ModalVedio x={"df"}/>
       <IntroPost />
       {list?.map((l) => (
         <Post key={l.postId} {...l} />
