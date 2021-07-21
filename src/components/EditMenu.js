@@ -10,7 +10,7 @@ import EditPost from "./EditPost";
 import Modal from "./Modal";
 
 export default function EditMenu(props) {
-  const { postId } = props;
+  const { _id } = props;
 
   const dispatch = useDispatch();
 
@@ -44,8 +44,7 @@ export default function EditMenu(props) {
   };
 
   const deletePost = () => {
-    console.log(postId);
-    dispatch(postActions.deletePostDB(postId));
+    dispatch(postActions.deletePostDB(_id));
     handleCloseMenu();
   };
 

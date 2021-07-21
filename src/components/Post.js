@@ -1,29 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import {
   ThumbUpAltOutlined,
   ChatBubbleOutlineRounded,
   ShareRounded,
+  ThumbUp,
 } from "@material-ui/icons";
 
+import profile from "../images/profile.jpg";
+import likeIcon from "../images/like.png";
 import PostCard from "../elements/PostCard";
 import Grid from "../elements/Grid";
 import Profile from "../elements/Profile";
-
-import likeIcon from "../images/like.png";
-import profile from "../images/profile.jpg";
+import CommentList from "./CommentList";
 import EditMenu from "./EditMenu";
 
+import { useSelector, useDispatch } from "react-redux";
+import { actionCreators as likeActions } from "../redux/modules/like";
 import moment from "moment";
-import CommentList from "./CommentList";
 
 const Post = (props) => {
-  const { postId, userInfo, content, comments, like } = props;
+  const { _id, userInfo, content, comments, like } = props;
+
+  const dispatch = useDispatch();
+  const user_info = useSelector((state) => state.user);
 
   const [showCmt, setShowCmt] = useState(false);
+  const [isLike, setIsLike] = useState(false);
 
-  const clickLike = () => {};
+  useEffect(() => {
+    const like_check = like.userList.filter(
+      (user) => user.userId === user_info.userId
+    );
+    if (like_check.length !== 0) {
+      setIsLike(true);
+    }
+  }, []);
+
+  const clickLike = () => {
+    dispatch(likeActions.setLikeDB(_id));
+    setIsLike(!isLike);
+  };
 
   const openCmt = () => {
     setShowCmt(true);
@@ -41,9 +59,9 @@ const Post = (props) => {
         <Line />
       </Grid>
       <Grid padding="0 1em" is_flex>
-        <Profile src={profile} margin="0 0.5em 0 0" />
+        <Profile src={userInfo.profilePic} margin="0 0.5em 0 0" />
         <Grid>
-          <Name>{userInfo.firstName}</Name>
+          <Name>{userInfo.firstName + userInfo.lastName}</Name>
           <Date>{content.createdAt}</Date>
         </Grid>
       </Grid>
@@ -74,9 +92,13 @@ const Post = (props) => {
         <Grid is_flex>
           <BtnContainer>
             <MenuButton onClick={clickLike}>
-              <ThumbUpAltOutlined
-                style={{ fontSize: "1.5em", marginRight: "0.5em" }}
-              />{" "}
+              {isLike ? (
+                <ThumbUp />
+              ) : (
+                <ThumbUpAltOutlined
+                  style={{ fontSize: "1.5em", marginRight: "0.5em" }}
+                />
+              )}{" "}
               좋아요
             </MenuButton>
             <MenuButton onClick={openCmt}>
@@ -95,36 +117,34 @@ const Post = (props) => {
         </Grid>
         <Line />
       </Grid>
-      {showCmt ? <CommentList postId={postId} comments={comments} /> : null}
+      {showCmt ? <CommentList postId={_id} comments={comments} /> : null}
     </PostCard>
   );
 };
 
 Post.defaultProps = {
-  postId: moment().format("YYYY-MM-DD hh:mm:ss"),
+  postId: "",
   userInfo: {
-    userEmail: "test@test.com",
-    firstName: "test user name",
+    userEmail: "",
+    firstName: "",
     profile: "",
   },
   content: {
     picture: [],
-    text: "test text",
-    createdAt: "2021 07 13 08 47 13 pm",
+    text: "",
+    createdAt: "",
   },
-
-  comment: [
+  comments: [
     {
       writerInfo: {
-        name: "댓글러",
-        profile: `${profile}`,
+        name: "",
+        profile: "",
       },
       commentId: 1,
-      commentText: "blah blah",
-      commentCreatedAt: " 1min ago",
+      commentText: "",
+      commentCreatedAt: "",
     },
   ],
-
   like: {
     userList: [],
     likeCnt: 0,

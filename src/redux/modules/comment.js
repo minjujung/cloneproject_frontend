@@ -16,19 +16,6 @@ const setComment = createAction(SET_COMMENT, (postId, comment_list) => ({
   comment_list,
 }));
 
-const addComment = createAction(ADD_COMMENT, (postId, comment) => ({
-  postId,
-  comment,
-}));
-
-const deleteComment = createAction(DELETE_COMMENT, (comment_id) => ({
-  comment_id,
-}));
-const editComment = createAction(EDIT_COMMENT, (comment_id, comment) => ({
-  comment_id,
-  comment,
-}));
-
 const initialState = {
   list: {
     1: [
@@ -52,12 +39,13 @@ const addCommentDB =
       postId: post_id,
       commentText: comment,
     };
+    console.log(new_comment.postId);
 
     instance.post("/api/comments", new_comment).then((res) => {
       console.log(res);
       const post_list = getState().post.list;
 
-      const post_idx = post_list.findIndex((p) => p.postId === post_id);
+      const post_idx = post_list.findIndex((p) => p._id === post_id);
       const _post = post_list[post_idx];
       console.log(_post);
 
@@ -67,7 +55,7 @@ const addCommentDB =
         _id: res.data.commentId,
         commentId: res.data.commentId,
         commentText: comment,
-        userName: user_info.user_name,
+        userName: user_info.firstName + user_info.lastName,
         profilePic: user_info.profile_url,
         commentCreatedAt: res.data.commentCreatedAt,
       };
@@ -87,7 +75,7 @@ const deleteCommentDB =
         console.log(res);
 
         const post_list = getState().post.list;
-        const post_idx = post_list.findIndex((p) => p.postId === postId);
+        const post_idx = post_list.findIndex((p) => p._id === postId);
         const _post = post_list[post_idx];
 
         const cmt_idx = _post.comments.findIndex(
@@ -111,7 +99,7 @@ const editCommentDB =
         console.log(res);
 
         const post_list = getState().post.list;
-        const post_idx = post_list.findIndex((p) => p.postId === postId);
+        const post_idx = post_list.findIndex((p) => p._id === postId);
         const _post = post_list[post_idx];
 
         const cmt_idx = _post.comments.findIndex(

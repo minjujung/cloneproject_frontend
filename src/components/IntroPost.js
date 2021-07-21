@@ -16,6 +16,8 @@ import Profile from "../elements/Profile";
 import profile from "../images/profile.jpg";
 import CreatePost from "./CreatePost";
 
+import { useSelector } from "react-redux";
+
 const styles = (theme) => ({
   customBadge: {
     backgroundColor: "green",
@@ -25,6 +27,8 @@ const styles = (theme) => ({
 });
 
 const IntroPost = (props) => {
+  const userInfo = useSelector((state) => state.user);
+
   const users_length = [1, 2, 3, 4];
   const [height, setHeight] = useState(27);
 
@@ -66,7 +70,7 @@ const IntroPost = (props) => {
         <Grid padding="1em">
           <Grid is_flex>
             <Profile
-              src={props.profile ? props.profile : profile}
+              src={userInfo.profile_url ? userInfo.profile_url : profile}
               margin="0 0.5em 0 0"
             />
             <Modal
@@ -78,7 +82,8 @@ const IntroPost = (props) => {
               padding="0"
               btn={
                 <PostButton>
-                  {props.userInfo.firstName}님, 무슨 생각을 하고 계신가요?
+                  {userInfo.firstName + userInfo.lastName}님, 무슨 생각을 하고
+                  계신가요?
                 </PostButton>
               }
             >
@@ -131,24 +136,13 @@ const IntroPost = (props) => {
               }}
               classes={{ badge: classes.customBadge }}
             >
-              <Profile
-                src={props.profile ? props.profile : profile}
-                margin="0 0 0 1em"
-              />
+              <Profile src={profile} margin="0 0 0 1em" />
             </Badge>
           ))}
         </Grid>
       </PostCard>
     </>
   );
-};
-
-IntroPost.defaultProps = {
-  userInfo: {
-    userEmail: "test@test.com",
-    firstName: "사용자",
-    profile: null,
-  },
 };
 
 export default withStyles(styles)(IntroPost);

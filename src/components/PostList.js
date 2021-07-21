@@ -19,7 +19,7 @@ const PostList = (props) => {
     <Container>
       <IntroPost />
       {list?.map((l) => (
-        <Post key={l.postId} {...l} />
+        <Post key={l._id} {...l} />
       ))}
     </Container>
   );

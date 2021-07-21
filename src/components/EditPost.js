@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditPost = (props) => {
-  const { postId, userInfo, content, comment, like } = props;
+  const { _id, userInfo, content } = props;
 
   const dispatch = useDispatch();
   const previewImage = useSelector((state) => state.profile.preview);
@@ -102,8 +102,7 @@ const EditPost = (props) => {
   };
 
   const editOnePost = () => {
-    console.log(postId);
-    dispatch(postActions.editPostDB(postId, postText));
+    dispatch(postActions.editPostDB(_id, postText));
     props.handleClose();
     props.handleCloseMenu();
     props.resizeModal(9);
@@ -120,9 +119,12 @@ const EditPost = (props) => {
           />
         </Button>
         <Grid is_flex padding="1em">
-          <Profile src={profile} alt="profile" />
+          <Profile
+            src={userInfo.profilePic ? userInfo.profilePic : profile}
+            alt="profile"
+          />
           <Grid>
-            <Name>{props.userInfo.firstName}</Name>
+            <Name>{userInfo.firstName + userInfo.lastName}</Name>
             <ShowOption>
               <LockRounded style={{ fontSize: "1em", marginRight: "0.3em" }} />
               <span>나만보기</span>
@@ -140,7 +142,9 @@ const EditPost = (props) => {
               onClick={sizeSmaller}
               onChange={sizeBigger}
               onInput={resize}
-              placeholder={`${userInfo.firstName}님, 무슨 생각을 하고 계신가요?`}
+              placeholder={`${
+                userInfo.firstName + userInfo.lastName
+              }님, 무슨 생각을 하고 계신가요?`}
             />
             {previewImage ? (
               <>
@@ -214,14 +218,6 @@ const EditPost = (props) => {
       <SentimentSatisfiedRounded className={classes.smileBtn} />
     </>
   );
-};
-
-EditPost.defaultProps = {
-  userInfo: {
-    userEmail: "test@test.com",
-    firstName: "사용자",
-    profile: null,
-  },
 };
 
 export default EditPost;
