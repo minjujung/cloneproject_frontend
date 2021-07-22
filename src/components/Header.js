@@ -46,8 +46,8 @@ const Header = (props) => {
           </SearchBtn>
         </Grid>
         <MainMenu>
-          <Item>
-            <HomeRounded style={IconStyle} />
+          <Item style={{ borderBottom: "3px solid #1877F2" }}>
+            <HomeRounded style={{ color: "#1877F2", fontSize: "32px" }} />
           </Item>
           <Item>
             <OndemandVideo style={IconStyle} />
@@ -77,18 +77,14 @@ const Header = (props) => {
             <NotificationsRounded />
           </Button>
           <Button>
-
-
-                      <Tooltip title="로그아웃!!">
-
-            <DirectionsRun
-              onClick={logout}
-              style={{
-                fontSize: "1.8em",
-              }}
-            />
-                      </Tooltip>
-
+            <Tooltip title="로그아웃!!">
+              <DirectionsRun
+                onClick={logout}
+                style={{
+                  fontSize: "1.8em",
+                }}
+              />
+            </Tooltip>
           </Button>
         </SideMenu>
       </HeaderStyle>
@@ -149,7 +145,6 @@ const SearchBtn = styled.button`
 
 const MainMenu = styled.ul`
   width: 28em;
-
   height: 100%;
   display: flex;
 `;
