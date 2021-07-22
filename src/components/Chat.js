@@ -46,16 +46,21 @@ const Chat = (props) => {
   const [chats, setChats] = useState([]);
   const socketRef = useRef();
   const scrollRef = useRef();
-
+  
+  const scrollToBottom = () => {
+  const {scrollHeight, clientHeight} = scrollRef.current;
+  console.log(scrollHeight, clientHeight)
+  scrollRef.current.scrollTop = scrollHeight - clientHeight;
+}
   const name = userInfo.firstName + userInfo.lastName;
 
-  const scrollToBottom = () => {
-    scrollRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    });
-  };
+  // const scrollToBottom = () => {
+  //   scrollRef.current.scrollIntoView({
+  //     behavior: "smooth",
+  //     block: "end",
+  //     inline: "nearest",
+  //   });
+  // };
 
   const sendChat = () => {
     socketRef.current.emit("chat message", { chat, name });
@@ -73,6 +78,7 @@ const Chat = (props) => {
     socketRef.current.on("chat message", (chat) => {
       setChats([...chats, chat]);
       console.log(chats);
+      scrollToBottom();
     });
 
     return () => socketRef.current.disconnect();
@@ -144,7 +150,6 @@ const Chat = (props) => {
             value={chat}
             _onChange={(e) => {
               setChat(e.target.value);
-              console.log(e);
             }}
             _onKeyPress={enterChat}
           />{" "}
@@ -240,7 +245,7 @@ const emojiStyle = {
 };
 
 const Messages = styled.div`
-  height: 20em;
+  height: 20.5em;
   width: 100%;
   overflow-y: auto;
   padding: 0.5em;
@@ -258,4 +263,5 @@ const MsgText = styled.span`
   padding: 0.7em;
   border-radius: 0.8em;
   box-sizing: border-box;
+  z-index: 1;
 `;
