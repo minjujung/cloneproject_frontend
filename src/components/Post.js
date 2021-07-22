@@ -20,6 +20,7 @@ import { actionCreators as likeActions } from "../redux/modules/like";
 
 const Post = (props) => {
   const { _id, userInfo, content, comments, like } = props;
+  console.log();
 
   const dispatch = useDispatch();
   const user_info = useSelector((state) => state.user);
@@ -42,7 +43,7 @@ const Post = (props) => {
   };
 
   const openCmt = () => {
-    setShowCmt(true);
+    setShowCmt(!showCmt);
   };
 
   return (
@@ -50,7 +51,17 @@ const Post = (props) => {
       <Grid padding="1em 1em 0 1em">
         <Grid is_flex space_between>
           <p style={{ margin: "0", textAlign: "left" }}>
-            땡땡님이 댓글을 남겼습니다.
+            {comments.length !== 0 ? (
+              <>
+                <span style={{ fontWeight: "bold" }}>
+                  {comments[comments.length - 1].lastName ||
+                    comments[comments.length - 1].userName}
+                </span>{" "}
+                <span>님이 댓글을 남겼습니다!</span>
+              </>
+            ) : (
+              "댓글을 남겨주세요 :)"
+            )}
           </p>
           {user_info.userId === parseInt(userInfo.userId) ? (
             <EditMenu {...props} />
@@ -85,7 +96,7 @@ const Post = (props) => {
           />{" "}
           {like.likeCnt}
         </LikeBtn>
-        <CommentCnt>댓글 {comments.length}개</CommentCnt>
+        <CommentCnt onClick={openCmt}>댓글 {comments.length}개</CommentCnt>
       </Grid>
       <Grid padding="0 1em">
         <Line />
@@ -179,6 +190,10 @@ const LikeBtn = styled.div`
 
 const CommentCnt = styled.span`
   font-size: 0.9em;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 `;
 
 const Line = styled.hr`

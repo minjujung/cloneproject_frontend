@@ -7,7 +7,7 @@ const Input = forwardRef(
   ({ placeholder, width, value, _onChange, _onKeyPress, icons }, ref) => {
     const style = { width };
     return (
-      <Container>
+      <Container {...style}>
         <InputBox
           value={value}
           onChange={_onChange}
@@ -41,17 +41,20 @@ export default Input;
 
 const Container = styled.div`
   position: relative;
-  width: 100%;
-`;
-
-const InputBox = styled.input`
-  ${(props) => (props.width ? `width: ${props.width};` : `width: 95%; `)}
-  font-size: 14px;
+  ${(props) =>
+    props.width ? `width: ${parseInt(props.width) + 3.6}em;` : `width: 90%;`}
   padding: 0.8em;
   border-radius: 30px;
   background-color: #f0f2f5;
+  display: flex;
+`;
+
+const InputBox = styled.input`
+  ${(props) => (props.width ? `width: ${props.width}em;` : `width: 80%;`)}
+  font-size: 14px;
   border: none;
   outline: none;
+  background-color: transparent;
 `;
 
 const iconStyle = { fontSize: "1.3em", color: "rgb(167 169 174)" };

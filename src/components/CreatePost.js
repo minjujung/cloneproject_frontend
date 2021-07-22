@@ -11,6 +11,7 @@ import {
   SentimentSatisfiedRounded,
   GifRounded,
   VideocamOffRounded,
+  CloseRounded,
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -146,22 +147,24 @@ const CreatePost = (props) => {
             />
             {previewImage ? (
               <>
-                <button
+                <DeleteBtn
                   onClick={() => {
                     dispatch(imageActions.setPreview(null));
                     imageInput.current.value = "";
                     props.resizeModal(textInput.current.scrollHeight / 16 + 4);
                   }}
                 >
-                  x
-                </button>
+                  <CloseRounded />
+                </DeleteBtn>
                 <img
                   src={previewImage}
                   style={{
-                    width: "17em",
-                    height: "17em",
+                    width: "80%",
+                    height: "80%",
                     margin: "0 auto",
                     display: "block",
+                    borderRadius: "0.5em",
+                    position: "relative",
                   }}
                   alt="preview"
                 />
@@ -305,6 +308,16 @@ const WriteField = styled.div`
   ::-webkit-scrollbar-track {
     background-color: transparent;
   }
+`;
+
+const DeleteBtn = styled.button`
+  position: absolute;
+  background-color: #ffffffd4;
+  border-radius: 1em;
+  border: none;
+  color: grey;
+  display: flex;
+  padding: 0.5em;
 `;
 
 const BtnContainer = styled.div`

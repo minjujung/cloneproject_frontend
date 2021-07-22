@@ -70,7 +70,7 @@ const CommentList = ({ comments, postId }) => {
               {cmtId === c._id ? (
                 <Grid relative>
                   <Input
-                    width="32.85em"
+                    width="25.9"
                     placeholder={c.commentText}
                     value={editText}
                     _onChange={(e) => setEditText(e.target.value)}
@@ -119,6 +119,7 @@ const CommentBox = styled.div`
   border-radius: 1.3em;
   box-sizing: border-box;
   padding: 0.6em 0.7em;
+  word-break: break-all;
 `;
 
 const Commenter = styled.p`
