@@ -91,6 +91,7 @@ const openVedio4 = () => {
 <Video onClick={openVedio2} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-15.mp41626851678200?alt=media&token=9c2ad581-7197-4bb3-bbff-be181051982a"></Video>
 <Video onClick={openVedio3} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-10-24.mp41626851432687?alt=media&token=7a9b6f73-0867-45f4-99ff-980e2d3c0359"></Video>
 <Video onClick={openVedio4} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-28-15.mp41626852512947?alt=media&token=e13c9c48-c197-4a61-b317-5f3049312bb1"></Video>
+<Video style={{backgroundColor:"#A4A4A4"}}></Video>
 </VideoContainer>
       <Modal
         open={open}
@@ -111,12 +112,12 @@ display: flex;
 
 
 const Video = styled.video`
- width: 111.2px;
+ width: 100.2px;
  border-radius: 15px;
- margin: 10px;
+ margin: 7px;
  &:hover {
     opacity: 1.2;
-    width: 113px;
+    /* width: 113px; */
     outline: none;
     cursor: pointer;
   }
