@@ -54,14 +54,7 @@ const Chat = (props) => {
 }
   const name = userInfo.firstName + userInfo.lastName;
 
-  // const scrollToBottom = () => {
-  //   scrollRef.current.scrollIntoView({
-  //     behavior: "smooth",
-  //     block: "end",
-  //     inline: "nearest",
-  //   });
-  // };
-
+  console.log(userInfo)
   const sendChat = () => {
     socketRef.current.emit("chat message", { chat, name });
     setChat(" ");
@@ -73,11 +66,18 @@ const Chat = (props) => {
     }
   };
 
+  React.useEffect(() => {
+    socketRef.current = io.connect("http://13.124.107.195:3000");
+    socketRef.current.emit("user", {userInfo})
+    socketRef.current.on("user", (data) => {
+      console.log(data);
+    });
+  },[]);
+
   useEffect(() => {
     socketRef.current = io.connect("http://13.124.107.195:3000");
     socketRef.current.on("chat message", (chat) => {
       setChats([...chats, chat]);
-      console.log(chats);
       scrollToBottom();
     });
 
@@ -254,6 +254,7 @@ const Messages = styled.div`
 
 const MsgLine = styled.p`
   margin: 2em 0;
+  word-break: break-all;
 `;
 
 const MsgText = styled.span`
@@ -263,5 +264,4 @@ const MsgText = styled.span`
   padding: 0.7em;
   border-radius: 0.8em;
   box-sizing: border-box;
-  z-index: 1;
 `;
