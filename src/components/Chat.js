@@ -26,9 +26,6 @@ import { withStyles } from "@material-ui/core/styles";
 
 import { useSelector } from "react-redux";
 
-// let socket;
-// const CONNECTION_PORT = "";
-
 const styles = (theme) => ({
   customBadge: {
     backgroundColor: "green",
@@ -45,13 +42,21 @@ const Chat = (props) => {
   const [chat, setChat] = useState("");
   const [chats, setChats] = useState([]);
   const socketRef = useRef();
-
+  const scrollRef = useRef();
+  
+  const scrollToBottom = () => {
+  const {scrollHeight, clientHeight} = scrollRef.current;
+  console.log(scrollHeight, clientHeight)
+  scrollRef.current.scrollTop = scrollHeight - clientHeight;
+}
   const name = userInfo.firstName + userInfo.lastName;
+
 
   const closeChat = () => {
     props.setLoggedIn(false);
   };
 
+  console.log(userInfo)
   const sendChat = () => {
     socketRef.current.emit("chat message", { chat, name });
     setChat(" ");
@@ -63,11 +68,19 @@ const Chat = (props) => {
     }
   };
 
+  React.useEffect(() => {
+    socketRef.current = io.connect("http://13.124.107.195:3000");
+    socketRef.current.emit("user", {userInfo})
+    socketRef.current.on("user", (data) => {
+      console.log(data);
+    });
+  },[]);
+
   useEffect(() => {
     socketRef.current = io.connect("http://13.124.107.195:3000");
     socketRef.current.on("chat message", (chat) => {
       setChats([...chats, chat]);
-      console.log(chats);
+      scrollToBottom();
     });
 
     return () => socketRef.current.disconnect();
@@ -105,7 +118,7 @@ const Chat = (props) => {
           <CloseRounded onClick={closeChat} />
         </RightBtns>
       </HeaderBar>
-      <Messages>
+      <Messages ref={scrollRef}>
         {chats.map((chat, idx) => (
           <MsgLine key={idx}>
             {chat.name} :{" "}
@@ -139,7 +152,6 @@ const Chat = (props) => {
             value={chat}
             _onChange={(e) => {
               setChat(e.target.value);
-              console.log(e);
             }}
             _onKeyPress={enterChat}
           />{" "}
@@ -235,7 +247,7 @@ const emojiStyle = {
 };
 
 const Messages = styled.div`
-  height: 20em;
+  height: 20.5em;
   width: 100%;
   overflow-y: auto;
   padding: 0.5em;
@@ -244,6 +256,7 @@ const Messages = styled.div`
 
 const MsgLine = styled.p`
   margin: 2em 0;
+  word-break: break-all;
 `;
 
 const MsgText = styled.span`

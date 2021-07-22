@@ -137,7 +137,7 @@ const Login = (props) => {
             <FacebookLogo>
               <Image src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg" />
               <h2>
-                Facebook에서 전세계에 있는 친구, 가족, 지인들과 함께 이야기를
+                Fakebook에서 전세계에 있는 친구, 가족, 지인들과 함께 이야기를
                 나눠보세요.
               </h2>
             </FacebookLogo>

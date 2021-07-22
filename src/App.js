@@ -9,11 +9,15 @@ import { useDispatch } from "react-redux";
 import React, { useEffect } from "react";
 import { actionCreators as postActions } from "./redux/modules/post";
 
+
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
+
   useEffect(() => {
     dispatch(postActions.getPostDB());
   }, []);
+
+
 
   return (
     <div className="App">
