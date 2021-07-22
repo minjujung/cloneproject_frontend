@@ -125,7 +125,7 @@ const CreatePost = (props) => {
             <Name>{userInfo.firstName + userInfo.lastName}</Name>
             <ShowOption>
               <LockRounded style={{ fontSize: "1em", marginRight: "0.3em" }} />
-              <span>나만보기</span>
+              <span>모두보기</span>
               <ArrowDropDownRounded style={{ fontSize: "1.3em" }} />
             </ShowOption>
           </Grid>

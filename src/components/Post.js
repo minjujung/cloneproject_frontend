@@ -8,7 +8,6 @@ import {
   ThumbUp,
 } from "@material-ui/icons";
 
-import profile from "../images/profile.jpg";
 import likeIcon from "../images/like.png";
 import PostCard from "../elements/PostCard";
 import Grid from "../elements/Grid";
@@ -18,7 +17,6 @@ import EditMenu from "./EditMenu";
 
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as likeActions } from "../redux/modules/like";
-import moment from "moment";
 
 const Post = (props) => {
   const { _id, userInfo, content, comments, like } = props;
@@ -33,8 +31,6 @@ const Post = (props) => {
     const like_check = like.userList.filter(
       (user) => user.userId === user_info.userId
     );
-
-    console.log(like_check);
     if (like_check.length !== 0) {
       return setIsLike(true);
     }
