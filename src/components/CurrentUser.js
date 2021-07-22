@@ -10,6 +10,8 @@ import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import Chat from "./Chat";
 
+import { useSelector } from "react-redux";
+
 // import io from "socket.io-client";
 // let socket;
 // const CONNECTION_PORT = "";
@@ -26,7 +28,8 @@ const styles = (theme) => ({
 });
 
 const CurrentUser = (props) => {
-  const users_length = [1, 2, 3, 4, 5, 6, 7];
+  const current_users = useSelector((state) => state.user.current_user_list);
+
   const { classes } = props;
 
   // //before login
@@ -47,8 +50,8 @@ const CurrentUser = (props) => {
     <Container>
       <Users line padding="4.5em 0 0.6em 0" margin="0">
         <Title>연락처</Title>
-        {users_length.map((user, idx) => (
-          <User key={idx} onClick={connectToRoom}>
+        {current_users.map((user, idx) => (
+          <User key={user.email} onClick={connectToRoom}>
             <Badge
               overlap="circular"
               badgeContent=" "
@@ -59,9 +62,9 @@ const CurrentUser = (props) => {
               }}
               classes={{ badge: classes.customBadge }}
             >
-              <Profile src={props.profile ? props.profile : profile} />
+              <Profile src={user.profilePic ? user.profilePic : profile} />
             </Badge>
-            <Name>{props.userInfo.firstName}</Name>
+            <Name>{user.firstName + user.lastName}</Name>
           </User>
         ))}
       </Users>
