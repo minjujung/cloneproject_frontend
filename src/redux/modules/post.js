@@ -93,6 +93,7 @@ const addPostDB =
               ...new_post,
               userInfo: { ...userInfo, userId: res.data.potato.userId },
               _id: res.data.potato.postId,
+
             })
           );
         })
