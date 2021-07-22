@@ -42,19 +42,14 @@ const Chat = (props) => {
   const userInfo = useSelector((state) => state.user);
   const { classes } = props;
 
-  const [chat, setChat] = useState();
+  const [chat, setChat] = useState("");
   const [chats, setChats] = useState([]);
   const socketRef = useRef();
-  const scrollRef = useRef();
 
   const name = userInfo.firstName + userInfo.lastName;
 
-  const scrollToBottom = () => {
-    scrollRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    });
+  const closeChat = () => {
+    props.setLoggedIn(false);
   };
 
   const sendChat = () => {
@@ -107,10 +102,10 @@ const Chat = (props) => {
           <Videocam />
           <Call />
           <RemoveRounded />
-          <CloseRounded onClick={props.connectToRoom} />
+          <CloseRounded onClick={closeChat} />
         </RightBtns>
       </HeaderBar>
-      <Messages ref={scrollRef}>
+      <Messages>
         {chats.map((chat, idx) => (
           <MsgLine key={idx}>
             {chat.name} :{" "}
@@ -139,7 +134,7 @@ const Chat = (props) => {
 
         <InputField>
           <Input
-            width={chat ? "15em" : "9em"}
+            width={chat ? "10em" : "5em"}
             placeholder="Aa"
             value={chat}
             _onChange={(e) => {

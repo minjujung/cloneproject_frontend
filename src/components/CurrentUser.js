@@ -39,7 +39,7 @@ const CurrentUser = (props) => {
   // }, []);
 
   const connectToRoom = () => {
-    setLoggedIn(!loggedIn);
+    setLoggedIn(true);
     // socket.emit("chat message", room);
   };
 
@@ -65,7 +65,7 @@ const CurrentUser = (props) => {
           </User>
         ))}
       </Users>
-      {loggedIn ? <Chat connectToRoom={connectToRoom} /> : null}
+      {loggedIn ? <Chat setLoggedIn={setLoggedIn} /> : null}
       <Users padding="1em 0 0em 0">
         <Title>그룹대화</Title>
         <User>

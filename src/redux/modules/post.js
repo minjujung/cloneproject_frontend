@@ -50,6 +50,7 @@ const addPostDB =
       },
       comments: [],
     };
+    dispatch(loading(true));
 
     const _image = getState().profile.preview;
 
@@ -93,7 +94,6 @@ const addPostDB =
               ...new_post,
               userInfo: { ...userInfo, userId: res.data.potato.userId },
               _id: res.data.potato.postId,
-
             })
           );
         })
@@ -214,11 +214,13 @@ export default handleActions(
     [ADD_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.list.unshift(action.payload.post);
+        draft.is_loading = false;
       }),
     [EDIT_POST]: (state, action) =>
       produce(state, (draft) => {
         let idx = draft.list.findIndex((l) => l._id === action.payload.post_id);
         draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
+        draft.is_loading = false;
       }),
     [DELETE_POST]: (state, action) =>
       produce(state, (draft) => {
