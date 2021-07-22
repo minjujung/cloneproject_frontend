@@ -31,7 +31,6 @@ const Post = (props) => {
     const like_check = like.userList.filter(
       (user) => user.userId === user_info.userId
     );
-    console.log(like_check);
     if (like_check.length !== 0) {
       return setIsLike(true);
     }

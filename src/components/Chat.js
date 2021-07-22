@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
+
+import io from "socket.io-client";
 
 import Profile from "../elements/Profile";
 import Input from "../elements/Input";
@@ -19,13 +21,13 @@ import {
   ThumbUpAltRounded,
   SendRounded,
 } from "@material-ui/icons";
+
 import { withStyles } from "@material-ui/core/styles";
 
 import { useSelector } from "react-redux";
 
-import io from "socket.io-client";
-let socket;
-const CONNECTION_PORT = "";
+// let socket;
+// const CONNECTION_PORT = "";
 
 const styles = (theme) => ({
   customBadge: {
@@ -40,31 +42,41 @@ const Chat = (props) => {
   const userInfo = useSelector((state) => state.user);
   const { classes } = props;
 
-  const [width, setWidth] = useState();
+  const [chat, setChat] = useState();
+  const [chats, setChats] = useState([]);
+  const socketRef = useRef();
+  const scrollRef = useRef();
 
-  //after login
-  const [message, setMessage] = useState("");
-  const [messageList, setMessageList] = useState([
-    { writer: "minju", message: "hello" },
-  ]);
+  const name = userInfo.firstName + userInfo.lastName;
+
+  const scrollToBottom = () => {
+    scrollRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+  };
+
+  const sendChat = () => {
+    socketRef.current.emit("chat message", { chat, name });
+    setChat(" ");
+  };
+
+  const enterChat = (e) => {
+    if (e.key === "Enter") {
+      sendChat();
+    }
+  };
 
   useEffect(() => {
-    socket = io(CONNECTION_PORT);
-  }, []);
+    socketRef.current = io.connect("http://13.124.107.195:3000");
+    socketRef.current.on("chat message", (chat) => {
+      setChats([...chats, chat]);
+      console.log(chats);
+    });
 
-  const chatting = (e) => {
-    setMessage(e.target.value);
-  };
-
-  const sendMessage = () => {
-    let msgContent = {
-      writer: userInfo.firstName + userInfo.lastName,
-      message,
-    };
-    socket.emit("chat message", msgContent);
-    setMessageList([...messageList, msgContent.writer, msgContent.message]);
-    setMessage("");
-  };
+    return () => socketRef.current.disconnect();
+  }, [chats]);
 
   return (
     <Container>
@@ -95,35 +107,24 @@ const Chat = (props) => {
           <Videocam />
           <Call />
           <RemoveRounded />
-          <CloseRounded />
+          <CloseRounded onClick={props.connectToRoom} />
         </RightBtns>
       </HeaderBar>
-      <Messages>
-        {messageList.map((val, key) => {
-          return (
-            <h1>
-              {val.writer} {val.message}
-            </h1>
-          );
-        })}
+      <Messages ref={scrollRef}>
+        {chats.map((chat, idx) => (
+          <MsgLine key={idx}>
+            {chat.name} :{" "}
+            <MsgText nameCheck={name === chat.name ? true : false}>
+              {chat.chat}
+            </MsgText>
+          </MsgLine>
+        ))}
       </Messages>
       <BottomMenu>
         <AddCircleRounded />
-        {message ? (
+        {chat ? null : (
           <>
-            <InputField>
-              <Input
-                width="15em"
-                placeholder="Aa"
-                value={message}
-                _onChange={chatting}
-              />{" "}
-              <EmojiEmotionsRounded style={emojiStyle} />
-            </InputField>
-            <SendRounded onClick={sendMessage} />
-          </>
-        ) : (
-          <>
+            {" "}
             <PhotoLibraryRounded />
             <InsertDriveFileRounded />
             <GifRounded
@@ -133,18 +134,23 @@ const Chat = (props) => {
                 borderRadius: "0.3em",
               }}
             />
-            <InputField>
-              <Input
-                width="9em"
-                placeholder="Aa"
-                value={message}
-                _onChange={chatting}
-              />
-              <EmojiEmotionsRounded style={emojiStyle} />
-            </InputField>
-            <ThumbUpAltRounded />
           </>
         )}
+
+        <InputField>
+          <Input
+            width={chat ? "15em" : "9em"}
+            placeholder="Aa"
+            value={chat}
+            _onChange={(e) => {
+              setChat(e.target.value);
+              console.log(e);
+            }}
+            _onKeyPress={enterChat}
+          />{" "}
+          <EmojiEmotionsRounded style={emojiStyle} />
+        </InputField>
+        {chat ? <SendRounded onClick={sendChat} /> : <ThumbUpAltRounded />}
       </BottomMenu>
     </Container>
   );
@@ -219,7 +225,6 @@ const BottomMenu = styled.div`
   box-sizing: border-box;
   padding: 0.3em;
   color: #1877f2;
-  transition: all 3s linear;
 `;
 
 const InputField = styled.div`
@@ -227,7 +232,6 @@ const InputField = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  transition: all 0.5s;
 `;
 
 const emojiStyle = {
@@ -235,4 +239,23 @@ const emojiStyle = {
   right: "0.3em",
 };
 
-const Messages = styled.div``;
+const Messages = styled.div`
+  height: 20em;
+  width: 100%;
+  overflow-y: auto;
+  padding: 0.5em;
+  box-sizing: border-box;
+`;
+
+const MsgLine = styled.p`
+  margin: 2em 0;
+`;
+
+const MsgText = styled.span`
+  height: 30em;
+  background-color: ${(props) => (props.nameCheck ? "#0084ff" : "#e4e6eb")};
+  color: ${(props) => (props.nameCheck ? "white" : "black")};
+  padding: 0.7em;
+  border-radius: 0.8em;
+  box-sizing: border-box;
+`;

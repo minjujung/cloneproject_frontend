@@ -13,7 +13,7 @@ import {
   SearchRounded,
   DirectionsRun,
 } from "@material-ui/icons";
-
+import Tooltip from "@material-ui/core/Tooltip";
 import profile from "../images/profile.jpg";
 import Grid from "../elements/Grid";
 import Profile from "../elements/Profile";
@@ -77,12 +77,18 @@ const Header = (props) => {
             <NotificationsRounded />
           </Button>
           <Button>
+
+
+                      <Tooltip title="로그아웃!!">
+
             <DirectionsRun
               onClick={logout}
               style={{
                 fontSize: "1.8em",
               }}
             />
+                      </Tooltip>
+
           </Button>
         </SideMenu>
       </HeaderStyle>

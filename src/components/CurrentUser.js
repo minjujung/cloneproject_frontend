@@ -10,9 +10,9 @@ import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import Chat from "./Chat";
 
-import io from "socket.io-client";
-let socket;
-const CONNECTION_PORT = "";
+// import io from "socket.io-client";
+// let socket;
+// const CONNECTION_PORT = "";
 // const CONNECTION_PORT = "http://13.124.107.195";
 // //http://13.124.107.195/:3000
 
@@ -29,18 +29,18 @@ const CurrentUser = (props) => {
   const users_length = [1, 2, 3, 4, 5, 6, 7];
   const { classes } = props;
 
-  //before login
+  // //before login
   const [loggedIn, setLoggedIn] = useState(false);
-  const [room, setRoom] = useState("");
-  const [userName, setUserName] = useState("");
+  // const [room, setRoom] = useState("");
+  // const [userName, setUserName] = useState("");
 
-  useEffect(() => {
-    socket = io(CONNECTION_PORT);
-  }, []);
+  // useEffect(() => {
+  //   socket = io(CONNECTION_PORT);
+  // }, []);
 
   const connectToRoom = () => {
-    setLoggedIn(true);
-    socket.emit("chat message", room);
+    setLoggedIn(!loggedIn);
+    // socket.emit("chat message", room);
   };
 
   return (

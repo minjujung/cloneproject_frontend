@@ -292,11 +292,13 @@ const Login = (props) => {
                     </div>
                   </DivMC>
                 </DivM>
+                
               </Modal>
             </LoginBox>
           </BackgroundC>
         </Div>
         <Bottom>
+        
           <ButtonText>
             <A>
               한국어 English (US) Tiếng Việt Bahasa Indonesia ภาษาไทย Español
@@ -311,6 +313,7 @@ const Login = (props) => {
               정보 광고 만들기 페이지 만들기 개발자 채용 정보 개인정보처리방침
               쿠키 AdChoices 이용 약관 고객 센터 설정활동 로그
             </A>
+            
           </ButtonText>
         </Bottom>
       </Background>
@@ -319,3 +322,4 @@ const Login = (props) => {
 };
 
 export default Login;
+
