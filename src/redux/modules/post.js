@@ -131,6 +131,8 @@ const editPostDB = (postId = null, text = "") => {
 
     const _image = getState().profile.preview;
 
+    dispatch(loading(true));
+
     // 수정할때 텍스트만 남기고 사진은 지울 때
     if (!_image) {
       new_post = {
@@ -226,7 +228,10 @@ export default handleActions(
       produce(state, (draft) => {
         draft.list = draft.list.filter((l) => l._id !== action.payload.post_id);
       }),
-    [LOADING]: (state, action) => produce(state, (draft) => {}),
+    [LOADING]: (state, action) =>
+      produce(state, (draft) => {
+        draft.is_loading = action.payload.is_loading;
+      }),
   },
   initialState
 );
