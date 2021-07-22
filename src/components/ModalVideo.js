@@ -21,11 +21,11 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
-    width: 400,
+    width: 300,
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    border: '0px solid #000',
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(0, 0, 0),
   },
 }));
 
@@ -116,7 +116,7 @@ const Video = styled.video`
  border-radius: 15px;
  margin: 7px;
  &:hover {
-    opacity: 1.2;
+    opacity: 0.8;
     /* width: 113px; */
     outline: none;
     cursor: pointer;
