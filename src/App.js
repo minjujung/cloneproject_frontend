@@ -5,11 +5,15 @@ import { history } from "./redux/configureStore";
 import Main from "./pages/Main";
 import Login from "./pages/Login";
 import { useDispatch } from "react-redux";
-import React from "react";
-import { actionCreators as userActions } from "./redux/modules/user";
+import React, { useEffect } from "react";
+import { actionCreators as postActions } from "./redux/modules/post";
 
 function App() {
-  
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(postActions.getPostDB());
+  }, []);
+
   return (
     <div className="App">
       <ConnectedRouter history={history}>

@@ -36,6 +36,7 @@ const addPostDB =
       firstName: user_info.firstName,
       lastName: user_info.lastName,
       profilePic: user_info.profile_url,
+      userId: "",
     };
 
     const new_post = {
@@ -71,8 +72,9 @@ const addPostDB =
               console.log(res);
               _post = {
                 ...new_post,
+                userInfo: { ...userInfo, userId: res.data.potato.userId },
                 content: { ..._post.content },
-                _id: res.data._id,
+                _id: res.data.potato.postId,
               };
               console.log(_post);
               dispatch(addPost(_post));
@@ -89,7 +91,9 @@ const addPostDB =
           dispatch(
             addPost({
               ...new_post,
-              _id: res.data._id,
+              userInfo: { ...userInfo, userId: res.data.potato.userId },
+              _id: res.data.potato.postId,
+
             })
           );
         })

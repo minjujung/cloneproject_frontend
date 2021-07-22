@@ -52,9 +52,10 @@ const addCommentDB =
       const user_info = getState().user;
 
       const _comment = {
-        _id: res.data.commentId,
-        commentId: res.data.commentId,
+        _id: res.data.potato.commentId,
+        commentId: res.data.potato.commentId,
         commentText: comment,
+        userId: res.data.potato.userId,
         userName: user_info.firstName + user_info.lastName,
         profilePic: user_info.profile_url,
         commentCreatedAt: res.data.commentCreatedAt,
