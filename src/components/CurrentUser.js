@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import profile from "../images/profile.jpg";
@@ -9,6 +9,12 @@ import { withStyles } from "@material-ui/core/styles";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import Chat from "./Chat";
+
+import io from "socket.io-client";
+let socket;
+const CONNECTION_PORT = "";
+// const CONNECTION_PORT = "http://13.124.107.195";
+// //http://13.124.107.195/:3000
 
 const styles = (theme) => ({
   customBadge: {
@@ -23,10 +29,18 @@ const CurrentUser = (props) => {
   const users_length = [1, 2, 3, 4, 5, 6, 7];
   const { classes } = props;
 
-  const [open, setOpen] = useState(false);
+  //before login
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [room, setRoom] = useState("");
+  const [userName, setUserName] = useState("");
 
-  const handleOpen = () => {
-    setOpen(!open);
+  useEffect(() => {
+    socket = io(CONNECTION_PORT);
+  }, []);
+
+  const connectToRoom = () => {
+    setLoggedIn(true);
+    socket.emit("chat message", room);
   };
 
   return (
@@ -34,7 +48,7 @@ const CurrentUser = (props) => {
       <Users line padding="4.5em 0 0.6em 0" margin="0">
         <Title>연락처</Title>
         {users_length.map((user, idx) => (
-          <User key={idx} onClick={handleOpen}>
+          <User key={idx} onClick={connectToRoom}>
             <Badge
               overlap="circular"
               badgeContent=" "
@@ -51,7 +65,7 @@ const CurrentUser = (props) => {
           </User>
         ))}
       </Users>
-      {open ? <Chat handleOpen={handleOpen} /> : null}
+      {loggedIn ? <Chat connectToRoom={connectToRoom} /> : null}
       <Users padding="1em 0 0em 0">
         <Title>그룹대화</Title>
         <User>

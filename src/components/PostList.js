@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Post from "./Post";
 
 import ModalVedio from "../components/ModalVideo";
-import x from "../images/x.png";
 
 const PostList = (props) => {
   const list = useSelector((state) => state.post.list);

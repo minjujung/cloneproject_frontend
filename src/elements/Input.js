@@ -52,6 +52,7 @@ const InputBox = styled.input`
   background-color: #f0f2f5;
   border: none;
   outline: none;
+  transition: all 500ms linear;
 `;
 
 const iconStyle = { fontSize: "1.3em", color: "rgb(167 169 174)" };
