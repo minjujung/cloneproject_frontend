@@ -108,7 +108,7 @@ const Chat = (props) => {
       <Messages>
         {chats.map((chat, idx) => (
           <MsgLine key={idx}>
-            {chat.name} :{" "}
+            {chat.name}
             <MsgText nameCheck={name === chat.name ? true : false}>
               {chat.chat}
             </MsgText>
@@ -240,6 +240,7 @@ const Messages = styled.div`
   overflow-y: auto;
   padding: 0.5em;
   box-sizing: border-box;
+  text-align: left;
 `;
 
 const MsgLine = styled.p`
@@ -253,4 +254,6 @@ const MsgText = styled.span`
   padding: 0.7em;
   border-radius: 0.8em;
   box-sizing: border-box;
+  margin-left: 0.5em;
+  text-align: center;
 `;
