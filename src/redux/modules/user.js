@@ -1,13 +1,21 @@
 import { createAction, handleActions } from "redux-actions";
+import React, {useRef, useState} from "react";
 import produce from "immer";
 import axios from "axios";
 import instance from "../../shared/api";
+import io from "socket.io-client";
 
 const SET_USER = "SET_USER";
 const LOG_OUT = "LOG_OUT";
+const CURRENT = "CURRENT";
+const OUT = "OUT";
 
 const setUser = createAction(SET_USER, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
+const currentUser = createAction(CURRENT, (current_user) => ({current_user}))
+const out = createAction(OUT, (email) => ({email}));
+
+const socketRef = useRef
 
 const initialState = {
   firstName: "",
@@ -16,6 +24,7 @@ const initialState = {
   profile_url: "",
   userId: "",
   is_login: false,
+  current_user_list: [],
 };
 
 const signUpDB = (
@@ -85,10 +94,12 @@ const loginDB = (email, pwd) => {
 
 const _logOut = () => {
   return function (dispatch, getState, { history }) {
+    const userInfo = getState().user
     document.cookie = `MY_COOKIE=; expires=${new Date(
       "2020-12-12"
     ).toUTCString()}`;
     dispatch(logOut());
+    dispatch(out(userInfo.email));
     history.replace("/login");
   };
 };
@@ -99,12 +110,19 @@ const loginCheckDB = () => {
       .get(`/api/me`)
       .then((res) => {
         console.log(res.data.userInfo);
+        const userInfo = res.data.userInfo;
         const firstName = res.data.userInfo.firstName;
         const lastName = res.data.userInfo.lastName;
         const userId = res.data.userInfo.userId;
         const email = res.data.userInfo.email;
         const profile_url = res.data.userInfo.profilePic;
         dispatch(setUser({ userId, email, firstName, lastName, profile_url }));
+        socketRef.current = io.connect("http://13.124.107.195:3000");
+        socketRef.current.emit("user", {userInfo})
+        socketRef.current.on("user", (data) => {
+          console.log(data);
+          dispatch(currentUser(data.userInfo))
+        });
       })
       .catch((error) => console.log(error));
   };
@@ -120,7 +138,6 @@ export default handleActions(
         draft.lastName = action.payload.user.lastName;
         draft.profile_url = action.payload.user.profile_url;
         draft.is_login = true;
-        // draft.user_name = action.payload.user_name;
       }),
     [LOG_OUT]: (state, action) =>
       produce(state, (draft) => {
@@ -129,6 +146,18 @@ export default handleActions(
         draft.profile_url = null;
         draft.is_login = false;
       }),
+    [CURRENT]: (state, action) =>
+    produce(state, (draft) => {
+      draft.current_user_list.push(action.payload.current_user);
+    }),
+    [OUT]: (state, action) =>
+    produce(state, (draft) => {
+      const out_index = draft.current_user_list.findIndex(l => 
+        l.email === action.payload.email )
+        draft.current_user_list.splice(out_index, 1)
+    
+    })
+    
   },
   initialState
 );
