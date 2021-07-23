@@ -64,19 +64,19 @@ const openVedio4 = () => {
 
   <video controls width="300px">
 {openNum===1?
-  <source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-21.mp41626851890422?alt=media&token=22e5df62-3a12-48ca-a2d7-a112a8ef7940"
+  <source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-10-24.mp4?alt=media&token=15f3d007-d086-468f-a6aa-ebe65d347633"
         type="video/webm"/>
 :<div></div>}
 {openNum===2?
-  <source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-15.mp41626851678200?alt=media&token=9c2ad581-7197-4bb3-bbff-be181051982a"
+  <source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-15.mp4?alt=media&token=bc0749c0-54b3-4951-99fc-1164e66ffe87"
         type="video/webm"/>
 :<div></div>}
 {openNum===3?
-  <source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-10-24.mp41626851432687?alt=media&token=7a9b6f73-0867-45f4-99ff-980e2d3c0359"
+  <source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-21.mp4?alt=media&token=971da8dc-9f1d-4f29-8d12-bf3e6c02a6cf"
         type="video/webm"/>
 :<div></div>}
 {openNum===4?
-  <source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-28-15.mp41626852512947?alt=media&token=e13c9c48-c197-4a61-b317-5f3049312bb1"
+  <source src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-28-15.mp4?alt=media&token=8fc70a71-6808-4051-b1aa-0e576bbee7bb"
         type="video/webm"/>
 :<div></div>}
 </video>
@@ -87,10 +87,10 @@ const openVedio4 = () => {
   return (
     <div>
         <VideoContainer>
-<Video onClick={openVedio1} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-21.mp41626851890422?alt=media&token=22e5df62-3a12-48ca-a2d7-a112a8ef7940"></Video>
-<Video onClick={openVedio2} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-15.mp41626851678200?alt=media&token=9c2ad581-7197-4bb3-bbff-be181051982a"></Video>
-<Video onClick={openVedio3} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-10-24.mp41626851432687?alt=media&token=7a9b6f73-0867-45f4-99ff-980e2d3c0359"></Video>
-<Video onClick={openVedio4} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-28-15.mp41626852512947?alt=media&token=e13c9c48-c197-4a61-b317-5f3049312bb1"></Video>
+<Video onClick={openVedio1} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-10-24.mp4?alt=media&token=15f3d007-d086-468f-a6aa-ebe65d347633"></Video>
+<Video onClick={openVedio2} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-15.mp4?alt=media&token=bc0749c0-54b3-4951-99fc-1164e66ffe87"></Video>
+<Video onClick={openVedio3} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-14-21.mp4?alt=media&token=971da8dc-9f1d-4f29-8d12-bf3e6c02a6cf"></Video>
+<Video onClick={openVedio4} src="https://firebasestorage.googleapis.com/v0/b/facebookclone-93099.appspot.com/o/profiles%2FKakaoTalk_Video_2021-07-21-16-28-15.mp4?alt=media&token=8fc70a71-6808-4051-b1aa-0e576bbee7bb"></Video>
 <Video style={{backgroundColor:"#A4A4A4"}}></Video>
 </VideoContainer>
       <Modal

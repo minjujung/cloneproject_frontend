@@ -75,7 +75,6 @@ const EditPost = (props) => {
       return;
     }
     let textArea = textInput.current;
-    console.log(textArea.scrollHeight);
     textArea.style.height = "38px";
     textArea.style.height = textArea.scrollHeight + "px";
     if (textArea.scrollHeight > 144) {

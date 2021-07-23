@@ -21,7 +21,7 @@ const PostList = (props) => {
       ) : (
         <>
           {" "}
-          <ModalVedio x={"df"} />
+          <ModalVedio />
           <IntroPost />
           {list?.map((l) => (
             <Post key={l._id} {...l} />

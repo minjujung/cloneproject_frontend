@@ -20,7 +20,6 @@ import { actionCreators as likeActions } from "../redux/modules/like";
 
 const Post = (props) => {
   const { _id, userInfo, content, comments, like } = props;
-  console.log();
 
   const dispatch = useDispatch();
   const user_info = useSelector((state) => state.user);

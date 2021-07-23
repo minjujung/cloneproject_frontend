@@ -27,11 +27,9 @@ const uploadProfileFB = (profile) => {
       .ref(`profiles/${profile.name}${new Date().getTime()}`)
       .put(profile);
     _upload.then((snap) => {
-      console.log(snap);
       dispatch(uploading(false));
       snap.ref.getDownloadURL().then((url) => {
         dispatch(uploadProfile(url));
-        console.log(url);
       });
     });
   };

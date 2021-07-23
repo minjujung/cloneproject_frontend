@@ -41,7 +41,6 @@ const CommentList = ({ comments, postId }) => {
     }
   };
 
-  console.log();
 
   return (
     <>

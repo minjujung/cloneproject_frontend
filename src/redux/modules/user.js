@@ -48,10 +48,8 @@ const signUpDB = (
       },
     })
       .then((res) => {
-        console.log(res);
         if (res.status === 201) {
           dispatch(setUser({ email, pwd, profile_url }));
-          console.log("회원가입 성공");
           window.alert("회원가입이 완료되었습니다!");
           handleClose();
         }
@@ -74,8 +72,6 @@ const loginDB = (email, pwd) => {
       },
     })
       .then((res) => {
-        console.log(res);
-        console.log(res.data.token); //201 에러 200 정상 (로그인 시)
         if (res.status === 200) {
           const firstName = res.data.userInfo.fistName;
           const lastName = res.data.userInfo.lastName;
@@ -109,7 +105,6 @@ const loginCheckDB = () => {
     instance
       .get(`/api/me`)
       .then((res) => {
-        console.log(res.data.userInfo);
         const userInfo = res.data.userInfo;
         const firstName = res.data.userInfo.firstName;
         const lastName = res.data.userInfo.lastName;
@@ -120,7 +115,6 @@ const loginCheckDB = () => {
         socketRef.current = io.connect("http://13.124.107.195:3000");
         socketRef.current.emit("user", {userInfo})
         socketRef.current.on("user", (data) => {
-          console.log(data);
           dispatch(currentUser(data.userInfo))
         });
       })

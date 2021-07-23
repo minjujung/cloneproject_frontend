@@ -53,7 +53,6 @@ const Login = (props) => {
   };
 
   const handleClose = () => {
-    console.log("close!");
     setOpen(false);
   };
 
@@ -104,32 +103,9 @@ const Login = (props) => {
     dispatch(UserActions.loginDB(emailL, pwdL));
   };
 
-  // const like_plus = () => {
-  //   if(!likeState){
-  //     let _like = like+1
-
-  //     setLike(_like);
-  //     setLikeState(true);
-  //   console.log(likeState);
-  //   console.log(_like)
-  //   dispatch(LikeActions.setLike(_like));
-  //   }
-
-  //   else {
-  //     let _like = like -1
-  //     setLike(_like);
-  //     setLikeState(false);
-  //   console.log(likeState);
-  //   dispatch(LikeActions.setLike(_like));
-  //   }
-  //   console.log(likeState);
-  // }
 
   return (
     <>
-      {/* <button onClick={like_plus}>더하기</button> */}
-      {/* <input value={payloadLike}/> */}
-      {/* <ModalVedio x={"df"}/> */}
 
       <Background>
         <Div>

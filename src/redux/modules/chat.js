@@ -18,11 +18,9 @@ const socket = socketIOClient(`http://13.124.107.195:3000`); // 수정해야 함
 const globalSocket = socketIOClient(`http://13.124.107.195:3000`);
 
 const getMsgDB = () => {
-    console.log("미들웨어 전")
   return function (dispatch, getState, { history }) {
     socket.connect("http://13.124.107.195:3000");
     socket.on("chat message", (res) => {
-        console.log(res)
         dispatch(getMsg(res))
     });
   };

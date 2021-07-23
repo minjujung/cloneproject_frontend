@@ -10,11 +10,9 @@ const SET_CLICK = "SET_CLICK";
 const setLike = createAction(SET_LIKE, (email, postIdList) => ({
   email,
   postIdList,
-})); //payload 에서 변수를 나타냄
+})); 
 const setClick = createAction(SET_CLICK, () => {});
-// const initialState = {
-//   list:{userInfo.email: [postId1, postId2..]}
-// }
+
 
 const initialState = {
   list: {},
@@ -27,7 +25,6 @@ const setLikeDB =
     instance
       .put(`/api/posts/${postId}/like`)
       .then((res) => {
-        console.log(res);
         const user_info = getState().user;
 
         const post_list = getState().post.list;
@@ -35,7 +32,6 @@ const setLikeDB =
         const _post = post_list[post_idx];
 
         const user_list = _post.like.userList;
-        console.log(user_list);
         let new_post = {};
         let new_list = [];
 

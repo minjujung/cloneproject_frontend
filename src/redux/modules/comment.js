@@ -39,15 +39,12 @@ const addCommentDB =
       postId: post_id,
       commentText: comment,
     };
-    console.log(new_comment.postId);
 
     instance.post("/api/comments", new_comment).then((res) => {
-      console.log(res);
       const post_list = getState().post.list;
 
       const post_idx = post_list.findIndex((p) => p._id === post_id);
       const _post = post_list[post_idx];
-      console.log(_post);
 
       const user_info = getState().user;
 
@@ -73,7 +70,6 @@ const deleteCommentDB =
     instance
       .delete(`/api/comments/${commentId}`)
       .then((res) => {
-        console.log(res);
 
         const post_list = getState().post.list;
         const post_idx = post_list.findIndex((p) => p._id === postId);
@@ -97,7 +93,6 @@ const editCommentDB =
     instance
       .put(`/api/comments/${commentId}`, { commentId, commentText: comment })
       .then((res) => {
-        console.log(res);
 
         const post_list = getState().post.list;
         const post_idx = post_list.findIndex((p) => p._id === postId);

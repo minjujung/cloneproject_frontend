@@ -46,7 +46,6 @@ const Chat = (props) => {
   
   const scrollToBottom = () => {
   const {scrollHeight, clientHeight} = scrollRef.current;
-  console.log(scrollHeight, clientHeight)
   scrollRef.current.scrollTop = scrollHeight - clientHeight;
 }
   const name = userInfo.firstName + userInfo.lastName;
@@ -56,7 +55,6 @@ const Chat = (props) => {
     props.setLoggedIn(false);
   };
 
-  console.log(userInfo)
   const sendChat = () => {
     socketRef.current.emit("chat message", { chat, name });
     setChat(" ");
@@ -72,7 +70,6 @@ const Chat = (props) => {
     socketRef.current = io.connect("http://13.124.107.195:3000");
     socketRef.current.emit("user", {userInfo})
     socketRef.current.on("user", (data) => {
-      console.log(data);
     });
   },[]);
 

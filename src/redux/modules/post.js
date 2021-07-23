@@ -61,23 +61,19 @@ const addPostDB =
 
       _upload.then((snapshot) => {
         snapshot.ref.getDownloadURL().then((url) => {
-          console.log(url);
           let _post = {
             ...new_post,
             content: { ...new_post.content, picture: url },
           };
-          console.log(_post);
           instance
             .post("/api/posts", _post)
             .then((res) => {
-              console.log(res);
               _post = {
                 ...new_post,
                 userInfo: { ...userInfo, userId: res.data.potato.userId },
                 content: { ..._post.content },
                 _id: res.data.potato.postId,
               };
-              console.log(_post);
               dispatch(addPost(_post));
               dispatch(profileActions.setPreview(null));
             })
@@ -88,7 +84,6 @@ const addPostDB =
       instance
         .post("/api/posts", new_post)
         .then((res) => {
-          console.log(res);
           dispatch(
             addPost({
               ...new_post,
@@ -104,11 +99,9 @@ const addPostDB =
 const deletePostDB =
   (post_id) =>
   (dispatch, getState, { history }) => {
-    console.log("before axios");
     instance
       .delete(`/api/posts/${post_id}`)
       .then((res) => {
-        console.log(res);
         dispatch(deletePost(post_id));
       })
       .catch((error) => console.log(error));
@@ -117,8 +110,6 @@ const deletePostDB =
 const editPostDB = (postId = null, text = "") => {
   return function (dispatch, getState, { history }) {
     if (!postId) {
-      console.log(postId);
-      console.log("게시물 정보가 없습니다ㅜㅜ");
       return;
     }
     const post_idx = getState().post.list.findIndex((p) => p._id === postId);
@@ -147,7 +138,6 @@ const editPostDB = (postId = null, text = "") => {
       instance
         .put(`/api/posts/${postId}`, new_post)
         .then((res) => {
-          console.log(res);
           dispatch(editPost(postId, { ...new_post }));
         })
         .catch((error) => console.log(error));
@@ -158,8 +148,6 @@ const editPostDB = (postId = null, text = "") => {
       instance
         .put(`/api/posts/${postId}`, new_post)
         .then((res) => {
-          console.log(res);
-          console.log(postId);
           dispatch(editPost(postId, { ...new_post }));
         })
         .catch((error) => console.log(error));
@@ -180,7 +168,6 @@ const editPostDB = (postId = null, text = "") => {
           instance
             .put(`/api/posts/${postId}`, post)
             .then((res) => {
-              console.log(res);
               dispatch(editPost(postId, post));
               dispatch(profileActions.setPreview(null));
             })
@@ -195,11 +182,9 @@ const editPostDB = (postId = null, text = "") => {
 const getPostDB =
   () =>
   (dispatch, getState, { history }) => {
-    console.log("before axios");
     instance
       .get("/api/posts")
       .then((res) => {
-        console.log(res);
         dispatch(setPost(res.data));
       })
       .catch((error) => {
