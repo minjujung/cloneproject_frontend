@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import CurrentUser from "../components/CurrentUser";
 import Header from "../components/Header";
@@ -12,18 +12,15 @@ import { actionCreators as UserActions } from "../redux/modules/user";
 const Main = (props) => {
   const dispatch = useDispatch();
 
-
-  React.useEffect( () => {
+  React.useEffect(() => {
     dispatch(UserActions.loginCheckDB());
   }, []);
 
-
-  
   const is_token = document.cookie.split("=")[1];
 
-  if (is_token===undefined) {
-    history.replace("/login");
-  }
+  // if (is_token===undefined) {
+  //   history.replace("/login");
+  // }
   return (
     <Container>
       <Header />
