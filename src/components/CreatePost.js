@@ -108,8 +108,6 @@ const CreatePost = (props) => {
     props.resizeModal(10.5);
   };
 
-  console.log(postText);
-
   return (
     <>
       <Container>
