@@ -51,19 +51,6 @@ const CreatePost = (props) => {
     dispatch(imageActions.setPreview(null));
   }, []);
 
-  const sizeSmaller = (event) => {
-    if (event.target.scrollHeight > 152) {
-      setSize(1.5);
-    }
-  };
-
-  const sizeBigger = (event) => {
-    if (event.target.value === "") {
-      setSize(1.9);
-    }
-    setPostText(event.target.value);
-  };
-
   const resize = () => {
     if (textInput === null || textInput.current === null) {
       return;
@@ -79,6 +66,20 @@ const CreatePost = (props) => {
         props.resizeModal(textArea.scrollHeight / 16);
       }
     }
+  };
+
+  const sizeSmaller = (event) => {
+    if (event.target.scrollHeight > 152) {
+      setSize(1.5);
+    }
+  };
+
+  const sizeBigger = (event) => {
+    if (event.target.value === "") {
+      setSize(1.9);
+    }
+    resize();
+    setPostText(event.target.value);
   };
 
   const selectFile = (e) => {
@@ -106,6 +107,8 @@ const CreatePost = (props) => {
     props.handleClose();
     props.resizeModal(10.5);
   };
+
+  console.log(postText);
 
   return (
     <>
@@ -140,7 +143,7 @@ const CreatePost = (props) => {
               style={{ fontSize: `${size}em` }}
               onClick={sizeSmaller}
               onChange={sizeBigger}
-              onInput={resize}
+              // onInput={resize}
               placeholder={`${
                 userInfo.firstName + userInfo.lastName
               }님, 무슨 생각을 하고 계신가요?`}
