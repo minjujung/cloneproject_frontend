@@ -88,21 +88,8 @@ Facebook의 `로그인 / 회원가입 페이지` 와 `메인페이지`만 클론
        };
 
        ...
-
-       const sizeSmaller = (event) => {
-           if (event.target.scrollHeight > 152) {
-             setSize(1.5);
-           }
-         };
-
-         const sizeBigger = (event) => {
-           if (event.target.value === "") {
-             setSize(1.9);
-           }
-           setPostText(event.target.value);
-         };
-
-         const resize = () => {
+       
+       const resize = () => {
            if (textInput === null || textInput.current === null) {
              return;
            }
@@ -119,6 +106,20 @@ Facebook의 `로그인 / 회원가입 페이지` 와 `메인페이지`만 클론
            }
          };
 
+
+       const sizeSmaller = (event) => {
+           if (event.target.scrollHeight > 152) {
+             setSize(1.5);
+           }
+         };
+
+         const sizeBigger = (event) => {
+           if (event.target.value === "") {
+             setSize(1.9);
+           }
+           setPostText(event.target.value);
+         };
+         
        ...
 
        <textarea
@@ -127,7 +128,6 @@ Facebook의 `로그인 / 회원가입 페이지` 와 `메인페이지`만 클론
          style={{ fontSize: `${size}em` }}
          onClick={sizeSmaller}
          onChange={sizeBigger}
-         onInput={resize}
          placeholder={`${
            userInfo.firstName + userInfo.lastName
          }님, 무슨 생각을 하고 계신가요?`}
